@@ -1,3 +1,16 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.mdl-components__warning {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.mdl-components__warning {
+    background-color: #fff9c4;
+    padding: 16px;
+    border-radius: 2px;
+    color: #212121;
+}

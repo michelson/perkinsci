@@ -17,10 +17,7 @@
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">PerkinsCI</span>
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">example</a>
       </nav>
     </div>
     <main class="mdl-layout__content">
@@ -33,17 +30,25 @@
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
+          <% if user_signed_in? %>
+            <%= link_to "Logout", destroy_user_session_path , class:"mdl-navigation__link", method: :delete %>
+           
+            <%= link_to "settings", "#", class:"mdl-navigation__link" %>
+          <% else %> 
+            <%= link_to "login", new_user_session_path , class:"mdl-navigation__link" %>
+          <% end %> 
           </nav>
         </div>
       </header>
 
       <div class="page-content">
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
+
+        <div class="mdl-components__warning">
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
+        </div>
+
+        
         <%= yield %>
       </div>
     </main>
