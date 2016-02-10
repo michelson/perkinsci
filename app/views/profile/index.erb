@@ -1,0 +1,14 @@
+
+<h2>Selecciona una organización </h2>
+<% @github_orgs.each do |org| %>
+
+  <ul class="demo-list-icon mdl-list">
+    <li class="mdl-list__item">
+      <span class="mdl-list__item-primary-content">
+        <i class="material-icons mdl-list__item-icon">person</i>
+        <%= link_to org["login"], profile_path(org["login"]) %>
+      </span>
+    </li>
+  </ul>
+
+<% end %>  

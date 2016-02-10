@@ -10,8 +10,6 @@ class Repo < ActiveRecord::Base
   scope :from_github, ->{where(cached: true)}
   scope :added, ->{where(cached: false)}
 
-  DEFAULT_DIR = Perkins::Application.instance.working_dir
-
   def self.add_repo(id)
     repo = $github_client.repo(id.to_i)
     Repo.sync_github_repo(repo)
@@ -45,7 +43,7 @@ class Repo < ActiveRecord::Base
   end
 
   def update_working_path
-    self.working_dir ||= Perkins::Application.instance.working_dir
+    self.working_dir ||= "/tmp"
   end
 
   def self.synced_records
@@ -142,8 +140,8 @@ class Repo < ActiveRecord::Base
   end
 
   def hook_url
-    u = Perkins::Application.instance.sse_endpoint
-    p = Perkins::Application.instance.port == "80" ? nil : Perkins::Application.instance.port
+    u = ENV['endpoint']
+    p = ENV['port'] == "80" ? nil : ENV['port']
     host = [u, p].compact.join(":")
     url = "#{host}/repos/receiver.json"
   end
