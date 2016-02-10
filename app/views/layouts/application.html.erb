@@ -18,6 +18,17 @@
       <span class="mdl-layout-title">PerkinsCI</span>
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="">example</a>
+        
+        <ul class="demo-list-icon mdl-list">
+          <% Repo.all.each do |repo| %>
+            <li class="mdl-list__item">
+              <span class="mdl-list__item-primary-content">
+                <%= link_to repo.name, "/repos/#{repo.name}" %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+        <%= yield :sidebar %>
       </nav>
     </div>
     <main class="mdl-layout__content">
@@ -43,10 +54,12 @@
 
       <div class="page-content">
 
-        <div class="mdl-components__warning">
-          <p class="notice"><%= notice %></p>
-          <p class="alert"><%= alert %></p>
-        </div>
+        <% if session[:flash].present? %>
+          <div class="mdl-components__warning">
+            <p class="notice"><%= notice %></p>
+            <p class="alert"><%= alert %></p>
+          </div>
+        <% end %>
 
         
         <%= yield %>

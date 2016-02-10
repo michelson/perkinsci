@@ -7,10 +7,14 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
+  resources :profile, controller: :profile
 
   resources :repos do 
 
   end
+
+  get "/repos/add/:id" => "repos#add"
+  get "/repos/:name/:repo" => "repos#show"
 
   get "/me" => "home#me"
   get "/orgs" => "home#orgs"
