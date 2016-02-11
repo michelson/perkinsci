@@ -14,6 +14,19 @@ class window.LogView
     #console.log(@el)
     #@log.set(0,"dfs")
 
+    @listenEvents()
+
+  listenEvents: ->
+
+    $("#log a").on 'mouseenter', (ev)->
+      t = ev.currentTarget
+      num = $(t.parentNode).prevAll('p').length + 1
+      url = window.location + ''
+      $(t).attr('href', url.replace(/#L\d+|(?=\?)|$/, '#L' + num))
+
+    $("#log .fold").on 'click', (ev)->
+      $(ev.currentTarget).toggleClass('open')
+
   receive: (ix, line) ->
     @log.set(ix, line) #if @get('running')
 
