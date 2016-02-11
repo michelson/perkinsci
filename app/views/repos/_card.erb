@@ -55,23 +55,34 @@
           <% end %>
 
           <div class="stats">
+            
             <p>
-              <%= status_label(@build.status) %>
+
+              <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <%= status_icon(@build) %>
+                Replay
+              </a>
             </p>
+
+            <% if @build.build_status == "stopped" %>
+
             <p>
+              <i class="material-icons">schedule</i>
               <%= @build.build_time %>
             </p>
+
             <p>
+              <i class="material-icons">schedule</i>
               duration:
               <strong>
                 <%= @build.duration %> secs
               </strong>
             </p>
+
+            <% end %>
+
           </div>
 
-          <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Replay
-          </a>
         </div> 
 
       </div> 
@@ -79,10 +90,12 @@
     </div>
   <% end %>
 
-  <div class="mdl-card__actions mdl-card--border">
-    <a href="/repos/<%= @repo.name %>/run_commit"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Run last commit
-    </a>
-  </div>
+  <% unless @build.present? %>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="/repos/<%= @repo.name %>/run_commit"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Run last commit
+      </a>
+    </div>
+  <% end %>
 
 </div>

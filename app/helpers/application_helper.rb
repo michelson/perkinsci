@@ -18,6 +18,18 @@ module ApplicationHelper
     raw "<span class='label label-#{label}'>build | #{msg}</span>"
   end
 
+  def status_icon(build)
+    if build.build_status == "started"
+      raw "<i class='material-icons'>cached</i>"
+    elsif build.build_status == "stopped"
+      if build.status? 
+        raw "<i class='material-icons'>done</i> | PASSED"
+      else
+        raw "<i class='material-icons'>bug report</i> | FAILED" 
+      end
+    end
+  end
+
   def status_class(status)
     status == true ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove"
   end

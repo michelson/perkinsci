@@ -21,46 +21,7 @@
   </thead>
 
   <tbody>
-    <% @repo.build_reports.each do |build| %>
-      <tr>
-        
-        <td class="mdl-data-table__cell--non-numeric">
-          <a href="/repos/<%=@repo.name%>/builds/<%=build.id%>">
-            <%= build.status %>
-          </a>
-        </td>
-
-        <td class="mdl-data-table__cell--non-numeric">
-          <%= @build.commit[:commit][:message].split("\n")[0] %>
-        </td>
-
-        <td>
-          <%= build.sha[0..7]%>
-          <% if build.branch.present? %>
-            <strong>
-            <%= "(#{build.branch})" %>
-            </strong>
-          <%end%>
-        </td>
-
-        <td>
-          <% if build.build_status == "stopped" %>
-            <%= "(#{build.duration}) secs" %>
-          <% else %>
-            <%= build.build_status %>
-          <% end %>
-        </td>
-
-        <td>
-          <% if build.build_status == "stopped" %>
-            <abbr class="timeago" title= <%= build.build_time %> >
-              <%= build.build_time %>
-            </abbr>
-          <% end %>
-        </td>
-        
-      </tr>
-    <% end %>
-    
+    <%= render partial: "builds/row", collection: @repo.build_reports, as: :build, locals: { repo: @repo } %>
   </tbody>
+
 </table>
