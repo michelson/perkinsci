@@ -93,6 +93,7 @@
   <% unless @build.present? %>
     <div class="mdl-card__actions mdl-card--border">
       <a href="/repos/<%= @repo.name %>/run_commit"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <img src="<%= image_path("github.svg")%>" width="25">
         Run last commit
       </a>
     </div>
