@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails' #, '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem "font-awesome-rails"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -35,16 +36,17 @@ gem 'sidekiq'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'kaminari'
 
 gem 'travis-yaml'
 gem 'sinatra', github: "sinatra/sinatra"
 gem 'colorize'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'capistrano-rails', group: :development
 
 group :test do 
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|

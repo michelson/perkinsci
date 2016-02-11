@@ -3,51 +3,78 @@
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">
       <%= @repo.name %>
+      <span class="repo-gh">
+        <a href="https://github.com/<%=@repo.name%>" title="" target="blank">
+          <%=@repo.name%> on Github
+        </a>        
+      </span>
     </h2>
   </div>
 
   <% if @build.present? %>
     <div class="mdl-card__supporting-text">
-      <strong><%= @build.branch %></strong> 
-      <br/>
-      \-
-      <%= @build.commit[:commit][:message] %>
-      <br/>
-      <img src="<%= gravatar_url(@build.commit[:commit][:author][:email], 25) %>">
-      <%= @build.commit[:commit][:author][:name] %>
-      authored and committed
 
-      <div class="pull-right">
-        <a href="<%= commit_url(@build) %>" target="blank">
-          <img src="<%= image_path("github.svg")%>" width="20">
-          <%= "commit ... #{@build.sha[0, 6]}" %>
-        </a>
-      </div> 
+      <div class="mdl-grid">
+        
+        <div class="mdl-cell mdl-cell--10-col">
+          <strong>
+            <%= @build.branch %>
+          </strong>
 
-      <div class="pull-right">
-        <strong>
-          <abbr class="timeago" title="<%= @build.commit[:commit][:author][:date] %>"></abbr>
-        </strong>
+          <% if @build.commit.present? %>
 
-        <div class="stats">
-          <p>
-            <%= status_label(@build.status) %>
-          </p>
-          <p>
-            <%= @build.build_time %>
-          </p>
-          <p>
-            duration:
-            <strong>
-              <%= @build.duration %> secs
-            </strong>
-          </p>
+            <p>
+              \-
+              <%= @build.commit[:commit][:message] if @build.commit.present? %>            
+            </p>
+
+            <p>
+              <a href="https://github.com/<%= @build.commit[:commit][:author][:login]%>" class="circle">
+                <img src="<%= gravatar_url(@build.commit[:commit][:author][:email], 25) %>">              
+              </a>
+
+              <%= @build.commit[:commit][:author][:name] %>
+              authored and committed
+              <br/>
+              <a href="<%= commit_url(@build) %>" target="blank">
+                <img src="<%= image_path("github.svg")%>" width="25">
+                <%= "commit ... #{@build.sha[0, 6]}" %>
+              </a>              
+            </p>
+
+      
+          <% end %> 
         </div>
 
-        <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          Replay
-        </a>
-      </div>  
+        <div class="mdl-cell mdl-cell--2-col">
+          <% if @build.commit.present? %>
+            <strong>
+              <abbr class="timeago" title="<%= @build.commit[:commit][:author][:date] %>">
+              </abbr>
+            </strong>
+          <% end %>
+
+          <div class="stats">
+            <p>
+              <%= status_label(@build.status) %>
+            </p>
+            <p>
+              <%= @build.build_time %>
+            </p>
+            <p>
+              duration:
+              <strong>
+                <%= @build.duration %> secs
+              </strong>
+            </p>
+          </div>
+
+          <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            Replay
+          </a>
+        </div> 
+
+      </div> 
 
     </div>
   <% end %>
@@ -56,12 +83,6 @@
     <a href="/repos/<%= @repo.name %>/run_commit"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
       Run last commit
     </a>
-  </div>
-
-  <div class="mdl-card__menu">
-    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">share</i>
-    </button>
   </div>
 
 </div>

@@ -1,0 +1,26 @@
+<header class="mdl-layout__header">
+  <div class="mdl-layout__header-row">
+    <!-- Title -->
+    <span class="mdl-layout-title">Title</span>
+    <!-- Add spacer, to align navigation to the right -->
+    <div class="mdl-layout-spacer"></div>
+    <!-- Navigation. We hide it in small screens. -->
+    <nav class="mdl-navigation mdl-layout--large-screen-only">
+    
+      <% if user_signed_in? %>
+        <%= link_to "Logout", destroy_user_session_path , class:"mdl-navigation__link", method: :delete %>
+       
+        <%= link_to "settings", "/profile", class:"mdl-navigation__link" %>
+
+        <%= link_to "/profile", class: "circle" do %>
+          <%= image_tag gravatar_url(current_user.email, 25) %>
+        <% end %>
+
+
+      <% else %> 
+        <%= link_to "login", new_user_session_path , class:"mdl-navigation__link" %>
+      <% end %>
+
+    </nav>
+  </div>
+</header>

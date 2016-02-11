@@ -1,18 +1,45 @@
 
-<h2>Selecciona una organización </h2>
-<% @github_orgs.each do |org| %>
+<div class="mdl-grid">
 
-  <ul class="demo-list-icon mdl-list">
-    <li class="mdl-list__item">
-      <span class="mdl-list__item-primary-content">
-        <i class="material-icons mdl-list__item-icon">person</i>
-        <%= link_to org["login"], profile_path(org["login"]) %>
-      </span>
-    </li>
-  </ul>
+  <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+    <div class="mdl-tabs__tab-bar">
+        <a href="#orgs-panel" class="mdl-tabs__tab is-active">  
+          Organizaciones
+        </a>
+        <a href="#repos-panel" class="mdl-tabs__tab">Repos</a>
+    </div>
 
-<% end %>  
+    <div class="mdl-tabs__panel is-active" id="orgs-panel">
 
+      <div class="mdl-card__title">
+        <h3 class="mdl-card__title-text">
+          Selecciona una organización
+        </h3>
+      </div>
 
-<h3>My Repos</h3>
-<%= render "repos" %>
+      <% @github_orgs.each do |org| %>
+        <ul class="demo-list-icon mdl-list">
+          <li class="mdl-list__item">
+            <span class="mdl-list__item-primary-content">
+              <i class="material-icons mdl-list__item-icon">person</i>
+              <%= link_to org["login"], profile_path(org["login"]) %>
+            </span>
+          </li>
+        </ul>
+      <% end %> 
+
+    </div>
+
+    <div class="mdl-tabs__panel" id="repos-panel">
+      <div class="mdl-card__title">
+        <h3 class="mdl-card__title-text">
+          My Repos
+        </h3>
+      </div>
+
+      <%= render "repos" %>
+    </div>
+
+  </div>
+  
+</div>

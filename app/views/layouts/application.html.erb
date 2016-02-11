@@ -2,69 +2,45 @@
 <html>
 <head>
   <title>Perkinsci</title>
+  
   <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
+
 <body>
 
-
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+    
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">PerkinsCI</span>
-      <nav class="mdl-navigation">
-        <h4>My Repos</h4>
-        <a href="/profile">+</a>
-        <ul class="demo-list-icon mdl-list">
-          <% Repo.all.each do |repo| %>
-            <li class="mdl-list__item">
-              <span class="mdl-list__item-primary-content">
-                <%= link_to repo.name, "/repos/#{repo.name}" %>
-              </span>
-            </li>
-          <% end %>
-        </ul>
-        <%= yield :sidebar %>
-      </nav>
+      <%= render "shared/side_nav" %>
     </div>
+
     <main class="mdl-layout__content">
 
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">Title</span>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-          <!-- Navigation. We hide it in small screens. -->
-          <nav class="mdl-navigation mdl-layout--large-screen-only">
-          <% if user_signed_in? %>
-            <%= link_to "Logout", destroy_user_session_path , class:"mdl-navigation__link", method: :delete %>
-           
-            <%= link_to "settings", "/profile", class:"mdl-navigation__link" %>
-          <% else %> 
-            <%= link_to "login", new_user_session_path , class:"mdl-navigation__link" %>
-          <% end %> 
-          </nav>
-        </div>
-      </header>
+      <%= render "shared/header" %> 
 
       <div class="page-content">
-
         <% if session[:flash].present? %>
           <div class="mdl-components__warning">
             <p class="notice"><%= notice %></p>
             <p class="alert"><%= alert %></p>
           </div>
         <% end %>
-
-        
         <%= yield %>
       </div>
+
+      <%= render "shared/footer" %>
+
     </main>
+
   </div>
 
 </body>

@@ -1,0 +1,30 @@
+<nav class="mdl-navigation">
+  
+  <div class="mdl-tabs">
+    <div class="mdl-tabs__tab-bar">
+        <a href="#myrepos" class="mdl-tabs__tab is-active">
+          Repos
+        </a>
+        <a href="/profile" class="mdl-tabs__tab">
+          +
+        </a>
+    </div>
+
+    <div class="mdl-tabs__panel is-active" id="myrepos">
+
+      <ul class="demo-list-icon mdl-list">
+        <% Repo.all.each do |repo| %>
+          <li class="mdl-list__item">
+            <span class="mdl-list__item-primary-content">
+              <%= link_to repo.name, "/repos/#{repo.name}" %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <%= yield :sidebar %>
+</nav>

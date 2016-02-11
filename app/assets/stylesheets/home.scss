@@ -14,3 +14,40 @@
     border-radius: 2px;
     color: #212121;
 }
+
+.icon-github-circle, .repo-gh a {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSAxNC44Ij48c3R5bGU+LnN0MHtmaWxsOiM5NDk4OTk7fTwvc3R5bGU+PHBhdGggY2xhc3M9InN0MCIgZD0iTTYgMTQuOGMtLjEgMC0uMSAwIDAgMC0zLjUtLjctNi0zLjgtNi03LjNDMCAzLjQgMy40IDAgNy41IDBTMTUgMy40IDE1IDcuNWMwIDMuMy0yLjEgNi4yLTUuMyA3LjItLjEgMC0uMiAwLS4zLS4xLS4xLS4xLS4yLS4yLS4yLS4zdi0yLjdjMC0uMyAwLS41LS4xLS43IDAtLjEtLjEtLjItLjEtLjJsLS4xLS4xYy0uMS0uMS0uMS0uMy0uMS0uNC4xLS4xLjItLjIuMy0uMmguMmMuNS0uMS45LS4yIDEuMy0uNC4yLS4xLjQtLjMuNS0uNC4xLS4yLjMtLjQuMy0uNy4xLS4yLjEtLjUuMS0uOHYtLjVjLS4xLS41LS4yLS44LS41LTEuMiAwLS4yLS4xLS40IDAtLjZWNS4xYzAtLjMgMC0uNS0uMS0uOC0uMiAwLS4zLjEtLjUuMnMtLjMuMi0uNS4zbC0uMS4xYy0uMS4xLS4zLjEtLjQuMS0uMy0uMS0uNi0uMS0xLS4ySDcuMWMtLjMgMC0uNy4xLTEgLjItLjEgMC0uMiAwLS40LS4xLS4zLS4yLS41LS4zLS44LS40LS4xIDAtLjItLjEtLjQtLjEgMCAuMi0uMS4zLS4xLjVzMCAuMy4xLjV2LjFjMCAuMSAwIC4zLS4xLjRWNnMtLjEuMS0uMS4yYy0uMi4yLS4zLjQtLjMuOHYuOGMwIC4yLjEuNS4xLjguMS4yLjIuNC40LjYuMS4xLjMuMy40LjMuMy4yLjcuNCAxLjEuNC4xLjEuNC4xLjQuMS4xIDAgLjIuMS4zLjIuMS4xLjEuMi4xLjMgMCAuMS0uMi43LS43IDEtLjUuMy0xLjMuMy0xLjgtLjJsLS4yLS4yYy0uMS0uMi0uNC0uNi0uNi0uN2gtLjFzMCAuMy4xLjRjLjEuMS4xLjIuMi4yLjEuMi4zLjQuMy42LjMuNi43LjcuOC44LjMuMS44IDAgMSAwIC4xIDAgLjIgMCAuMy4xLjEuMS4xLjIuMS4zdjEuN2MwIC4xLS4xLjItLjEuM0g2ek03LjUuOEMzLjguOC44IDMuOC44IDcuNWMwIDMgMiA1LjYgNC44IDYuNHYtLjhjLS4zIDAtLjYgMC0uOS0uMS0uMy0uMS0uOS0uMy0xLjMtMS4yIDAtLjEtLjItLjMtLjMtLjQtLjEtLjEtLjEtLjItLjItLjMtLjMtLjQtLjMtMSAwLTEuMy4xLS4yLjUtLjMuOC0uMS4xIDAgLjIuMS4zLjFsLS4xLS4xYy0uMi0uMy0uNC0uNi0uNS0uOS0uMS0uMy0uMi0uNi0uMi0xIDAtLjMtLjEtLjYgMC0xcy4yLS44LjQtMS4xYzAtLjEuMS0uMS4xLS4ydi0uMWMwLS4yLS4xLS41LS4xLS43IDAtLjMuMS0uNS4yLS45LjItLjEuMy0uMi41LS4ycy42IDAgLjkuMmMuMy4xLjYuMi44LjQuMy0uMS43LS4xIDEuMS0uMmgxLjRjLjMgMCAuNy4xIDEgLjJsLjItLjFjLjEtLjEuMy0uMi41LS4yLjMtLjEuNS0uMi44LS4zaC4yYy4yIDAgLjQuMS41LjMuMS40LjMuOS4yIDEuNFY1LjZjLjIuNC40LjkuNSAxLjR2LjZjMCAuNC0uMS43LS4yIDEtLjEuNC0uMy43LS41IDEtLjIuMy0uNS41LS43LjYtLjQuMi0uOC40LTEuMi41LjEuMy4yLjUuMi45djIuMmMyLjYtMSA0LjMtMy41IDQuMy02LjNDMTQuMiAzLjggMTEuMi44IDcuNS44ek00LjMgMTBjLjIuMi4zLjQuNS42IDAgLjEuMS4xLjEuMS4yLjMuNi4zLjguMWwuMS0uMWgtLjFjLS41LS4xLS45LS4zLTEuMy0uNSAwLS4xLS4xLS4xLS4xLS4yeiIgaWQ9ImNpcmNsZWRnaXRodWIiLz48L3N2Zz4=);
+  display: block;
+  text-indent: -9999px;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+
+
+/* Circle Avatar Styles */
+
+.circle {
+  line-height: 0;   /* remove line-height */ 
+  display: inline-block;  /* circle wraps image */
+  //margin: 5px;
+  //border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%; /* relative value */
+  /*box-shadow: 0px 0px 5px rgba(0,0,0,0.4);*/
+  transition: linear 0.25s;
+  //height: 32px;
+  //width: 32px;
+}
+.circle img {
+  border-radius: 50%; /* relative value for
+           adjustable image size */
+}
+.circle:hover {
+  //transition: ease-out 0.2s;
+  //border: 2px solid rgba(255,255,255,0.8);
+  //-webkit-transition: ease-out 0.2s;
+}
+a.circle {
+  color: transparent;
+} /* IE fix: removes blue border */ 
