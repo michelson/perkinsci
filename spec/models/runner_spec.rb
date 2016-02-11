@@ -1,0 +1,155 @@
+require 'spec_helper'
+
+describe "Runner" do
+
+  let(:user_api) {
+    Octokit::Client.new(
+      login: ENV['LOGIN'],
+      access_token: ENV['ACCESS_TOKEN']
+    )
+  }
+
+  let(:file){
+    f = File.expand_path(File.dirname(__FILE__) + '/../fixtures/.travis.yml')
+    Travis::Yaml.parse( File.open(f).read )
+  }
+
+  before(:each) do
+    Repo.delete_all
+    Repo.sync_github_repos(github_user)
+    to_add = Repo.synced_records.where(name: test_repo[:full_name]).first
+    Repo.add_from_github(to_add.gb_id)
+  end
+
+
+  context "in repo" do
+    let( :repo ){ Repo.find_by(name: test_repo[:full_name]) }
+    before :each do
+      #expect(repo.load_git).to be_instance_of(Git::Base)
+      @runner = Runner.new
+      @runner.config = file
+      @runner.repo = repo
+
+      @report = BuildReport.new
+      @report.sha = "master" 
+      @report.branch = "master"
+
+      @runner.repo.build_reports << @report
+      @runner.repo.save
+
+      @runner.report = @report
+      #allow_any_instance_of(Repo).to receive(:clone_or_load).and_return(true)
+      #allow_any_instance_of(Repo).to receive(:git).and_return(Git::Base.new)
+    end
+
+    it "runner should raise error in case it fails" do
+      expect{@runner.run!}.to raise_error
+    end
+
+    it "should install bundler" do
+      expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
+      expect{@report.build_with("master", "master")}.to_not raise_error
+      #expect(Git::Base).to have_received(:chdir)
+      expect(@report.reload.duration.to_f).to be > 0
+      expect(@report.build_status).to be == "stopped"
+    end
+
+    #it "will make repo in sha dir" do
+    #  #allow_any_instance_of(Git::Base).to receive(:chdir).and_return(true)
+    #  @runner.repo.virtual_sha = "master"
+    #  expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
+    #  @runner.run("master")
+    #  #expect{@runner.run("master")}.to_not raise_error
+    #  #expect(Git::Base).to have_received(:chdir)
+    #  
+    #  expect(@report.reload.duration.to_f).to be > 0
+    #  expect(@report.build_status).to be == "stopped"
+    #end
+  end
+
+  context "a go repo" do
+    let( :repo ){ Repo.find_by(name: "michelson/godard") }
+    before :each do
+      repo.clone_or_load
+      @runner = repo.runner
+
+      report = BuildReport.new
+      report.sha = "master" 
+      report.branch = "master"
+      repo.build_reports << report
+      repo.branch = "master"
+      repo.save
+      @runner.report = report
+
+    end
+
+    it "should install bundler" do
+      expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
+      expect{@runner.run("master")}.to_not raise_error
+      expect(@runner.duration).to be > 0
+      expect(@runner).to_not be_running
+    end
+
+  end
+
+  context "build report" do 
+
+    let( :repo ){ Repo.find_by(name: "michelson/godard") }
+    before :each do
+      repo.clone_or_load
+      @runner = repo.runner
+
+
+      @report = BuildReport.new
+      @report.sha = "master" 
+      @report.branch = "master"
+      repo.build_reports << @report
+      repo.branch = "master"
+      repo.save
+      @runner.report = @report
+
+    end
+
+    it "retrieve_commit_info" do 
+      @report.retrieve_commit_info
+    end
+  end
+
+  context "build report" do 
+
+    let( :repo ){ Repo.find_by(name: "michelson/godard") }
+    before :each do
+
+      repo.clone_or_load
+      @runner = repo.runner
+
+      @report = BuildReport.new
+      @report.sha = "master" 
+      @report.branch = "master"
+      repo.build_reports << @report
+      repo.branch = "master"
+      repo.save
+      @runner.report = @report
+
+    end
+
+    it "retrieve_commit_info" do 
+      @report.retrieve_commit_info
+    end
+  end
+
+  context "script compilation" do 
+
+    let( :repo ){ Repo.find_by(name: "michelson/godard") }
+
+    it "check multiple commands" do 
+      allow_any_instance_of(Repo).to receive(:check_config_existence).and_return(file)
+      allow_any_instance_of(Repo).to receive(:has_config_yml?).and_return(true)
+      config = Repo.first.check_config_existence
+      repo = Repo.first
+      script = Perkins::Build::script(config, repo).compile
+    end
+  end
+
+end
+

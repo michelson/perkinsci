@@ -150,7 +150,7 @@ class Runner
   end
 
   def store_report
-    @current_report = BuildReport.find(report)
+    @current_report = BuildReport.find(report.id)
   end
 
   def get_builds

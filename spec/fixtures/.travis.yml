@@ -1,0 +1,21 @@
+
+#language: ruby
+#bundler_args: --without production development
+#script: BUNDLE_GEMFILE=$PWD/Gemfile bundle exec rspec
+#rvm:
+#  - 1.9.3-p545
+#  - 2.0.0-p247
+#os: osx
+
+
+
+language: ruby
+rvm:
+  - 2.1.0
+bundler_args: --path=/tmp/cache/bundler
+script:
+  #- RAILS_ENV=test bundle exec rake db:schema:load --trace
+- bundle exec rspec --tag ~js
+before_script:
+- cp config/database.yml.perkins config/database.yml 
+- mysql -e 'create database prey_control_panel_test'

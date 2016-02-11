@@ -1,0 +1,6 @@
+-
+  repo:
+    name: lazy_high_charts
+    url: "git@github.com:michelson/lazy_high_charts.git"
+    bootstrap: "bundle install"
+    test_script: "bundle exec rspec"
