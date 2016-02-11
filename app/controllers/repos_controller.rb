@@ -13,7 +13,6 @@ class ReposController < ApplicationController
     @repo.add_commit(sha, "master")
     redirect_to "/repos/#{@repo.name}"
     #repo.to_json
-
   end
 
   def receiver

@@ -150,7 +150,7 @@ class Runner
   end
 
   def store_report
-    @current_report = Perkins::BuildReport.find(report)
+    @current_report = BuildReport.find(report)
   end
 
   def get_builds

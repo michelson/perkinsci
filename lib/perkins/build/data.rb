@@ -10,9 +10,9 @@ module Perkins
       autoload :Env, 'perkins/build/data/env'
       autoload :Var, 'perkins/build/data/var'
 
-      DEFAULTS = { }
+      DEFAULTS ||= { }
 
-      DEFAULT_CACHES = {
+      DEFAULT_CACHES ||= {
         apt:       false,
         bundler:   false,
         cocoapods: false,
@@ -83,6 +83,7 @@ module Perkins
         data[:env_vars] || []
       end
 
+=begin
       class SshKey < Struct.new(:value, :source, :encoded)
         def value
           if encoded?
@@ -110,7 +111,7 @@ module Perkins
           SshKey.new(source_key, nil, true)
         end
       end
-
+=end
       def pull_request
         job[:pull_request]
       end
@@ -162,6 +163,7 @@ module Perkins
       def token
         data[:oauth_token]
       end
+
     end
   end
 end

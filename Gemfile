@@ -38,6 +38,7 @@ gem 'dotenv-rails', :groups => [:development, :test]
 
 gem 'travis-yaml'
 gem 'sinatra', github: "sinatra/sinatra"
+gem 'colorize'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

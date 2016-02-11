@@ -65,7 +65,7 @@ class BuildReport < ActiveRecord::Base
   end
 
   def github_state_url
-    "#{Perkins::Application.instance.sse_endpoint}/repos/#{repo.name}/builds/#{self.id}"
+    "#{ENV['ENDPOINT']}/repos/#{repo.name}/builds/#{self.id}"
   end
 
   def start!

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get "/repos/:name/:repo" => "repos#show"
   get "/repos/:name/:repo/run_commit" => "repos#run_commit"
 
+  get "/repos/:name/:repo/builds" => "builds#index"
+  get "/repos/:name/:repo/builds/:id" => "builds#show"
+
   get "/me" => "home#me"
   get "/orgs" => "home#orgs"
 

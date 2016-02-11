@@ -5,8 +5,8 @@ module Perkins
     #autoload :Services, 'perkins/build/services'
     autoload :Shell,    'perkins/build/shell'
 
-    HOME_DIR  = '$HOME'
-    BUILD_DIR = File.join(HOME_DIR, 'build')
+    HOME_DIR  ||= '$HOME'
+    BUILD_DIR ||= File.join(HOME_DIR, 'build')
 
     class << self
 

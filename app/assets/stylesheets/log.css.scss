@@ -1,0 +1,115 @@
+#metrics {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  text-align: right;
+}
+p {
+  margin: 0;
+}
+#log {
+  //float: left;
+  //width: 59%;
+  padding: 15px 0;
+  min-height: 12px;
+  line-height: 18px;
+  color: #fff;
+  font-family: monospace;
+  white-space: normal;
+  background-color: #333;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  overflow-x: scroll;
+}
+#log {
+  position: relative;
+  counter-reset: line-numbering;
+}
+#log p {
+  margin: 0;
+  padding: 0 15px 0 50px;
+  text-indent: -25px;
+}
+#log p::nth-line {
+  color: yellow !important;
+}
+#log {
+  counter-reset: line-numbering;
+}
+#log p a::before {
+  content: counter(line-numbering);
+  counter-increment: line-numbering;
+  padding-right: 1em;
+  text-align: right;
+  color: #fff;
+  opacity: 0.33;
+}
+#log a {
+  display: inline-block;
+  width: 35px;
+  margin-left: -10px;
+  text-align: right;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+pre#log .duration {
+  background-color: #666666;
+  border-radius: 7px;
+  color: #bbbbbb;
+  display: block;
+  float: right;
+  font-size: 10px;
+  line-height: 10px;
+  padding: 6px 7px 4px;
+  text-indent: 0;
+}
+
+#log .fold {
+  cursor: pointer;
+  background-color: #444;
+}
+#log .fold:not(.open) p {
+  visibility: hidden;
+  height: 0;
+  min-height: 0;
+}
+#log .fold:not(.open) p:first-of-type {
+  visibility: visible;
+  height: auto;
+  min-height: 16px;
+}
+#log .fold-start:not(.fold),
+#log .fold-end {
+  display: none;
+}
+#log .fold span.fold-name {
+  position: absolute;
+  display: block;
+  right: 20px;
+  margin-top: 3px;
+  padding: 0px 5px 2px 5px;
+  line-height: 10px;
+  font-size: 10px;
+  background-color: #999;
+  border-radius: 4px;
+  color: #eee;
+}
+
+.green {
+  color: lime;
+}
+.red {
+  color: red;
+}
+.yellow {
+  color: yellow;
+}
+
+#events {
+  float: right;
+  width: 40%;
+  overflow-x: scroll;
+}

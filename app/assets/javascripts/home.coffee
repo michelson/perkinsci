@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
+minispade.require('log')
 
 document.addEventListener 'page:change', ()->
   componentHandler.upgradeDom()
