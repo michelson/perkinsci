@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def github_user
-    Octokit::Client.new(:access_token => session[:user_token])
+    Octokit::Client.new(
+      :access_token => session[:user_token], 
+      auto_traversal: true,
+      per_page: 100)
   end
 
   def github_repos

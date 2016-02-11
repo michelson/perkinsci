@@ -1,2 +1,87 @@
+<div class="demo-card-wide mdl-card--dis mdl-shadow--2dp">
+  
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">
+      <%= @repo.name %>
+    </h2>
+  </div>
 
-<h2><%= @repo.name %>!</h2>
+  <div class="mdl-card__supporting-text">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Mauris sagittis pellentesque lacus eleifend lacinia...
+  </div>
+
+  <div class="mdl-card__actions mdl-card--border">
+    <a href="/repos/<%= @repo.name %>/run_commit"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+      Run last commit
+    </a>
+  </div>
+
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+
+</div>
+
+<h3> Builds </h3>
+
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%">
+  
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">
+        Build
+      </th>
+      <th>Message</th>
+      <th>Commit</th>
+      <th>Duration</th>
+      <th>Finished</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @repo.build_reports.each do |build| %>
+      <tr>
+        
+        <td class="mdl-data-table__cell--non-numeric">
+          <a href="/repos/<%=@repo.name%>/builds/<%=build.id%>">
+            <%= build.status %>
+          </a>
+        </td>
+
+        <td class="mdl-data-table__cell--non-numeric">
+          <a href="/repos/<%=@repo.name%>/builds/<%=build.id%>">
+            <%= build.status %>
+          </a>
+        </td>
+
+        <td>
+          <%= build.sha[0..7]%>
+          <% if build.branch.present? %>
+            <strong>
+            <%= "(#{build.branch})" %>
+            </strong>
+          <%end%>
+        </td>
+
+        <td>
+          <% if build.build_status == "stopped" %>
+            <%= "(#{build.duration}) secs" %>
+          <% else %>
+            - running
+          <% end %>
+        </td>
+
+        <td>
+          <% if build.build_status == "stopped" %>
+            <abbr class="timeago" title= <%= build.build_time %> >
+          <% end %>
+        </td>
+        
+      </tr>
+    <% end %>
+    
+  </tbody>
+</table>

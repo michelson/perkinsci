@@ -28,13 +28,16 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'git'
 gem 'devise', github: "plataformatec/devise"
 gem 'octokit'
 gem 'sidekiq'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]
+
+gem 'travis-yaml'
+gem 'sinatra', github: "sinatra/sinatra"
 
 # Use Unicorn as the app server
 # gem 'unicorn'

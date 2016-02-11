@@ -2,7 +2,7 @@ class Repo < ActiveRecord::Base
   attr_accessor :git
   attr_accessor :new_commit, :runner, :virtual_sha
 
-  has_many :build_reports, class_name: 'Perkins::BuildReport'
+  has_many :build_reports #, class_name: 'BuildReport'
   serialize :github_data, ActiveSupport::HashWithIndifferentAccess
 
   before_create :update_working_path
@@ -14,7 +14,7 @@ class Repo < ActiveRecord::Base
     repo = $github_client.repo(id.to_i)
     Repo.sync_github_repo(repo)
     r = Repo.add_from_github(id)
-    r.add_hook
+    r.add_hook rescue nil
     r
   end
 
@@ -30,10 +30,7 @@ class Repo < ActiveRecord::Base
   end
 
   def self.sync_github_repo(r)
-    if existing_repo = synced_records.where(gb_id: r[:id]).first
-      return existing_repo
-    end
-    repo = Repo.new
+    repo = Repo.find_or_initialize_by(name: r[:full_name])
     repo.github_data = r.to_attrs.with_indifferent_access
     repo.cached = true
     repo.url    = r[:clone_url]
@@ -62,7 +59,7 @@ class Repo < ActiveRecord::Base
     repo.name = opts["name"]
     repo.github_data = opts["github_data"]
     repo.gb_id = opts["github_data"]["id"]
-    repo.working_dir ||= Perkins::Application.instance.working_dir
+    repo.working_dir ||= "/tmp"
     repo
   end
 
@@ -118,7 +115,9 @@ class Repo < ActiveRecord::Base
   end
 
   def hook_exists?
-    $github_client.hooks(self.name).detect{|o| o[:config][:url] == self.hook_url }
+    $github_client.hooks(self.name).detect do |o| 
+      o[:config][:url] == self.hook_url
+    end
   end
 
   def edit_hook(url)
@@ -187,7 +186,7 @@ class Repo < ActiveRecord::Base
   end
 
   def local_path
-   [ self.working_dir , self.download_name].join
+   [ self.working_dir , self.download_name].join("/")
   end
 
   def branches
@@ -217,7 +216,7 @@ class Repo < ActiveRecord::Base
 
   def add_commit(sha, branch)
     #if runner_branch.include?(branch)
-      #@new_commit = Perkins::Commit.new(sha, self)
+      #@new_commit = Commit.new(sha, self)
       #@new_commit.branch = branch
       #enqueue_commit(@new_commit)
       enqueue_commit(sha, branch)
@@ -227,7 +226,7 @@ class Repo < ActiveRecord::Base
   end
 
   def enqueue_commit(sha, branch)
-    report = Perkins::BuildReport.new
+    report = BuildReport.new
     report.sha = sha 
     report.branch = branch
 
@@ -279,8 +278,8 @@ class Repo < ActiveRecord::Base
     opts = {repo: {id: self.id, name: self.name }}
     opts[:repo].merge!(msg) if msg.is_a?(Hash)
     json_opts = opts.to_json
-    puts "Notify #{json_opts}".yellow
-    Redis.current.publish("message.", json_opts)
+    #puts "Notify #{json_opts}".yellow
+    #Redis.current.publish("message.", json_opts)
   end
 
 end

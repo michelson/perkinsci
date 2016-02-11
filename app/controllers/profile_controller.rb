@@ -1,7 +1,7 @@
 class ProfileController < ApplicationController
 
   def index
-    #@github_repos = github_user.repositories
+    @github_repos = github_user.repositories(github_user.user.login)
     @github_orgs = github_user.orgs
   end
 
