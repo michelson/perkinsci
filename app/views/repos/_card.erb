@@ -7,8 +7,47 @@
   </div>
 
   <div class="mdl-card__supporting-text">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Mauris sagittis pellentesque lacus eleifend lacinia...
+    <strong><%= @build.branch %></strong> 
+    <br/>
+    \-
+    <%= @build.commit[:commit][:message] %>
+    <br/>
+    <img src="<%= gravatar_url(@build.commit[:commit][:author][:email], 25) %>">
+    <%= @build.commit[:commit][:author][:name] %>
+    authored and committed
+
+    <div class="pull-right">
+      <a href="<%= commit_url(@build) %>" target="blank">
+        <img src="<%= image_path("github.svg")%>" width="20">
+        <%= "commit ... #{@build.sha[0, 6]}" %>
+      </a>
+    </div> 
+
+    <div class="pull-right">
+      <strong>
+        <abbr class="timeago" title="<%= @build.commit[:commit][:author][:date] %>"></abbr>
+      </strong>
+
+      <div class="stats">
+        <p>
+          <%= status_label(@build.status) %>
+        </p>
+        <p>
+          <%= @build.build_time %>
+        </p>
+        <p>
+          duration:
+          <strong>
+            <%= @build.duration %> secs
+          </strong>
+        </p>
+      </div>
+
+      <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Replay
+      </a>
+    </div>  
+
   </div>
 
   <div class="mdl-card__actions mdl-card--border">

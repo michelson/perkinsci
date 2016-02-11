@@ -5,7 +5,6 @@ class ReposController < ApplicationController
   end
 
   def run_commit
-
     @repo = find_repo
     sha = $github_client
       .refs(@repo.name, "heads/master", per_page: 1)[:object][:sha]
@@ -35,6 +34,7 @@ class ReposController < ApplicationController
 
   def show
     find_repo
+    @build = @repo.build_reports.availables.last
   end
 
   def add

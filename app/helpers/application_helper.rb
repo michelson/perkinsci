@@ -8,14 +8,14 @@ module ApplicationHelper
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
 
-  def commit_url(sha)
-    "#{current_repo.get("http_url")}/commit/#{sha}"
+  def commit_url(build)
+    "#{build.repo.http_url}/commit/#{build.sha}"
   end
 
   def status_label(status)
     label = status == true ? "success": "default"
     msg   = status == true ? "passed" : "error"
-    "<span class='label label-#{label}'>build | #{msg}</span>"
+    raw "<span class='label label-#{label}'>build | #{msg}</span>"
   end
 
   def status_class(status)

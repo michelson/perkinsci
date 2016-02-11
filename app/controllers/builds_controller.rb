@@ -2,12 +2,12 @@ class BuildsController < ApplicationController
 
   def show
     find_repo
-    @build = @repo.build_reports.find(params[:id])
+    @build = @repo.build_reports.availables.find(params[:id])
   end
 
   def index
     find_repo
-    @builds = @repo.build_reports
+    @builds = @repo.build_reports.availables
   end
 
 private
