@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def github_user
     Octokit::Client.new(
-      :access_token => session[:user_token], 
+      access_token: session[:user_token], 
       auto_traversal: true,
       per_page: 100)
   end
