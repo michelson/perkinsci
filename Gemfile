@@ -51,7 +51,12 @@ gem 'colorize'
 gem 'puma'
 
 # Use Capistrano for deployment
-gem 'capistrano-rails', group: :development
+group :development do 
+  gem 'capistrano-rails'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundle'
+end
 
 group :test do 
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
