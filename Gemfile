@@ -58,6 +58,7 @@ group :development do
   gem 'capistrano3-puma'
   gem 'capistrano-rvm'
   gem 'capistrano-bundle'
+  gem 'capistrano-sidekiq'
 end
 
 group :test do 

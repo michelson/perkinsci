@@ -1,6 +1,10 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
+# There is a known bug that prevents sidekiq from starting when pty is true on Capistrano 3.
+set :pty,  false
+
+
 set :application, 'perkins'
 set :repo_url, 'git@github.com:michelson/perkinsci.git'
 
