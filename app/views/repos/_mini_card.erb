@@ -16,7 +16,7 @@
       <% if build.present? %>
         <div class="stats">
           <p> <strong>Duration:</strong> <%= build.to_duration %></p>
-          <p> <strong>Finished:</strong> <%= build.created_at %></p>  
+          <p> <strong>Finished:</strong> <%= time_ago_in_words(build.created_at) %></p>  
         </div>
       <% end %>
     </div>

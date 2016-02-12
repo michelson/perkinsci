@@ -205,6 +205,7 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    nprogress-rails (0.1.6.7)
     numerizer (0.1.1)
     oauth2 (1.1.0)
       faraday (>= 0.8, < 0.10)
@@ -329,6 +330,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   material_design_lite-rails
+  nprogress-rails
   octokit
   omniauth
   omniauth-github

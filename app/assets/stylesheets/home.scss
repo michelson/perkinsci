@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$nprogress-color: #444;
+$nprogress-height: 4px;
+$nprogress-zindex: 10100;
+
+@import 'nprogress';
+
 .mdl-data-table th {
   text-align: left !important;
 }
@@ -28,6 +34,18 @@
   margin-top: 4px;
 }
 
+.black{
+  background-color: rgb(66,66,66);
+}
+
+.red{
+  background-color: rgb(244, 67, 54);
+}
+
+.green{
+  background-color: rgb(139, 195, 74);
+}
+
 .mini-card {
   height: 83px;
   margin-bottom: 6px !important;
@@ -43,18 +61,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     float: right;
-  }
-
-  .black{
-    background-color: rgb(66,66,66);
-  }
-
-  .red{
-    background-color: rgb(244, 67, 54);
-  }
-
-  .green{
-    background-color: rgb(139, 195, 74);
   }
 
   .mdl-card__supporting-text{
