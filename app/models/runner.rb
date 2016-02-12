@@ -125,7 +125,14 @@ class Runner
   end
 
   def git_update(branch)
-    puts "fetch repo & reset to sha #{sha}".green
+    puts "fetch repo & reset to ref #{sha}".green
+    
+    binding.pry
+    
+    archive = $github_client.archive_link(repo.name, ref: sha)
+    system("curl -L #{a} > #{repo.local_path}.tar.gz")
+    system("tar -xvf #{repo.local_path}.tar.gz -C #{repo.working_dir}")
+
     repo.git.fetch()
     puts repo.git.reset_hard(sha).green
   end

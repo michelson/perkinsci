@@ -105,22 +105,4 @@ class BuildReport < ActiveRecord::Base
     "#{ENV['ENDPOINT']}/repos/#{repo.name}/builds/#{self.id}"
   end
 
-=begin
-  def started?
-    build_status == "started"
-  end
-
-  def stopped?
-    build_status == "stopped"
-  end
-
-  def start!
-    update_attribute(:build_status, "started")
-  end
-
-  def stop!
-    update_attribute(:build_status, "stopped")
-  end
-=end
-
 end
