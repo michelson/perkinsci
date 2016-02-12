@@ -35,6 +35,7 @@ class ReposController < ApplicationController
   def show
     find_repo
     @build = @repo.build_reports.availables.last
+    @builds = @repo.build_reports.order("id desc")
   end
 
   def add

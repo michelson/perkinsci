@@ -7,10 +7,14 @@
   </td>
 
   <td class="mdl-data-table__cell--non-numeric">
-    <%= @build.commit[:commit][:message].split("\n")[0] %>
+    <%= build.build_status  %>
   </td>
 
-  <td>
+  <td class="mdl-data-table__cell--non-numeric">
+    <%= build.commit[:commit][:message].split("\n")[0] if build.commit.present? %>
+  </td>
+
+  <td class="mdl-data-table__cell--non-numeric">
     <%= build.sha[0..7]%>
     <% if build.branch.present? %>
       <strong>
@@ -19,20 +23,14 @@
     <%end%>
   </td>
 
-  <td>
-    <% if build.build_status == "stopped" %>
-      <%= "(#{build.to_duration})" %>
-    <% else %>
-      <%= build.build_status %>
-    <% end %>
+  <td class="mdl-data-table__cell--non-numeric">
+    <%= build.to_duration || "-" %>
   </td>
 
-  <td>
-    <% if build.build_status == "stopped" %>
-      <abbr class="timeago" title= <%= build.build_time %> >
-        <%= build.build_time %>
-      </abbr>
-    <% end %>
+  <td class="mdl-data-table__cell--non-numeric">
+    <abbr class="timeago" title= <%= build.build_time %> >
+      <%= time_ago_in_words(build.build_time) rescue "-" %>
+    </abbr>
   </td>
   
 </tr>

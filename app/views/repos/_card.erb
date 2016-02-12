@@ -38,10 +38,10 @@
                 <a href="https://github.com/<%= @build.commit[:commit][:author][:login]%>" class="circle">
                   <img src="<%= gravatar_url(@build.commit[:commit][:author][:email], 25) %>">              
                 </a>
-
+                
                 <%= @build.commit[:commit][:author][:name] %>
                 authored and committed
-                <br/>
+                <hr/>
                 <a href="<%= commit_url(@build) %>" target="blank">
                   <img src="<%= image_path("github.svg")%>" width="25">
                   <%= "commit ... #{@build.sha[0, 6]}" %>

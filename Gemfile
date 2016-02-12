@@ -34,6 +34,7 @@ gem 'git'
 gem 'devise', github: "plataformatec/devise"
 gem 'octokit'
 gem 'sidekiq'
+# gem 'sidekiq-cron'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]

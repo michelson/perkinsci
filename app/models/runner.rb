@@ -90,25 +90,18 @@ class Runner
   def start_build
     @running = true
     store_report
-    binding.pry
     @current_report.start!
-    @repo.send_sse(status: "start")
-    @repo.update_column(:build_status, "started")
-    @current_report.build_status_report(sha, "pending")
   end
 
   def stop_build
     @running = false
-    @current_report.stop!
     @current_report.update_attributes(self.to_report)
-    @repo.update_column(:build_status, "stopped")
-    @repo.send_sse({ status: "stop", report: self })
-    @current_report.send_github_status(sha)
+    @current_report.stop!
   end
 
   def set_build_stats(&block)
     up = Time.now
-    #call the command itself
+    # call the command itself
     block.call
     down = Time.now
     @build_time = down

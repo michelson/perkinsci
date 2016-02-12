@@ -215,21 +215,13 @@ class Repo < ActiveRecord::Base
   end
 
   def add_commit(sha, branch)
-    #if runner_branch.include?(branch)
-      #@new_commit = Commit.new(sha, self)
-      #@new_commit.branch = branch
-      #enqueue_commit(@new_commit)
-      enqueue_commit(sha, branch)
-    #else
-    #  puts "skipping commit from branch #{branch}"
-    #end
+    enqueue_commit(sha, branch)
   end
 
   def enqueue_commit(sha, branch)
     report = BuildReport.new
     report.sha = sha 
     report.branch = branch
-
     self.build_reports << report
     self.save
   end
