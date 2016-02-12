@@ -16,8 +16,10 @@
 
       <div class="mdl-grid">
         
-        <div class="mdl-cell mdl-cell--10-col">
+        <div class="mdl-cell mdl-cell--9-col">
           <strong>
+            <%= status_icon(@build) %>
+
             <%= @build.branch %>
           </strong>
 
@@ -46,7 +48,7 @@
           <% end %> 
         </div>
 
-        <div class="mdl-cell mdl-cell--2-col">
+        <div class="mdl-cell mdl-cell--3-col">
           <% if @build.commit.present? %>
             <strong>
               <abbr class="timeago" title="<%= @build.commit[:commit][:author][:date] %>">
@@ -57,27 +59,24 @@
           <div class="stats">
             
             <p>
-
-              <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                <%= status_icon(@build) %>
+              <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                <i class="material-icons">sync</i>
                 Replay
               </a>
             </p>
 
             <% if @build.build_status == "stopped" %>
 
-            <p>
-              <i class="material-icons">schedule</i>
-              <%= @build.build_time %>
-            </p>
+              <p>
+                <i class="material-icons">date_range</i>
+                <%= time_ago_in_words(@build.build_time) %>
+              </p>
 
-            <p>
-              <i class="material-icons">schedule</i>
-              duration:
-              <strong>
-                <%= @build.duration %> secs
-              </strong>
-            </p>
+              <p>
+                <i class="material-icons">schedule</i>
+                <strong>duration:</strong>
+                <%= @build.to_duration %>
+              </p>
 
             <% end %>
 

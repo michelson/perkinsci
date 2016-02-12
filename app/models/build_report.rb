@@ -11,6 +11,10 @@ class BuildReport < ActiveRecord::Base
     BuildWorker.perform_async(self.id, sha, branch )
   end
 
+  def to_duration
+    ChronicDuration.output(duration.to_i)
+  end
+
   def build_with(sha, branch)
     self.retrieve_commit_info
     repo = self.repo

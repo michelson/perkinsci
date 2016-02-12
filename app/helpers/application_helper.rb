@@ -19,13 +19,25 @@ module ApplicationHelper
   end
 
   def status_icon(build)
-    if build.build_status == "started"
+    if build.blank? or build.build_status == "started"
       raw "<i class='material-icons'>cached</i>"
     elsif build.build_status == "stopped"
       if build.status? 
-        raw "<i class='material-icons'>done</i> | PASSED"
+        raw "<i class='material-icons'>done</i>"
       else
-        raw "<i class='material-icons'>bug report</i> | FAILED" 
+        raw "<i class='material-icons'>bug report</i>" 
+      end
+    end
+  end
+
+  def build_color(build)
+    if build.blank? or build.build_status == "started"
+      "black"
+    elsif build.build_status == "stopped"
+      if build.status? 
+        "green"
+      else
+        "red"
       end
     end
   end

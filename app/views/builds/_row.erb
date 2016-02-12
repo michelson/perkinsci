@@ -21,7 +21,7 @@
 
   <td>
     <% if build.build_status == "stopped" %>
-      <%= "(#{build.duration}) secs" %>
+      <%= "(#{build.to_duration})" %>
     <% else %>
       <%= build.build_status %>
     <% end %>
