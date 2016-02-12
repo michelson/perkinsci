@@ -61,16 +61,17 @@
             <% end %>
 
             <div class="stats">
-              
-              <p>
-                <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                  <i class="material-icons">sync</i>
-                  Replay
+              <div class="build-<%=@build.id %> mdl-spinner mdl-js-spinner is-active <%= 'hidden' if @build.stopped? %>">
+              </div>
+
+              <p class="<%= 'hidden' if @build.started? %>">
+                <a href="/repos/<%= @repo.name %>/builds/<%= @build.id %>/replay" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  Replay build
                 </a>
               </p>
 
               <% if @build.build_status == "stopped" %>
-
+                <hr/>
                 <p>
                   <i class="material-icons">date_range</i>
                   <%= time_ago_in_words(@build.build_time) %>

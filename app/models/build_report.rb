@@ -11,6 +11,14 @@ class BuildReport < ActiveRecord::Base
     BuildWorker.perform_async(self.id, sha, branch )
   end
 
+  def started?
+    build_status == "started"
+  end
+
+  def stopped?
+    build_status == "stopped"
+  end
+
   def to_duration
     ChronicDuration.output(duration.to_i)
   end

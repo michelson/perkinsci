@@ -279,6 +279,7 @@ class Repo < ActiveRecord::Base
     opts[:repo].merge!(msg) if msg.is_a?(Hash)
     json_opts = opts.to_json
     #puts "Notify #{json_opts}".yellow
+    ActionCable.server.broadcast "build_channel", opts
     #Redis.current.publish("message.", json_opts)
   end
 

@@ -23,7 +23,9 @@
 //= require vendor/log
 //= require log_view
 
-//= require_tree .
-
 //= require material
+
+//= require home
+
+//= require cable
 

@@ -21,8 +21,14 @@
         <ul class="demo-list-icon mdl-list">
           <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
-              <i class="material-icons mdl-list__item-icon">person</i>
-              <%= link_to org["login"], profile_path(org["login"]) %>
+              <i class="mdl-list__item-avatar">
+                <%= image_tag( org["avatar_url"], width: 60) %>  
+              </i>
+              
+              <h3><%= link_to org["login"], profile_path(org["login"]) %></h3> 
+              <p>
+                <%= link_to org["url"], org["url"] %>
+              </p> 
             </span>
           </li>
         </ul>

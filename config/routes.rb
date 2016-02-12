@@ -2,6 +2,8 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  mount ActionCable.server => '/cable'
+
   devise_for :users, 
   :controllers => { 
     :omniauth_callbacks => "users/omniauth_callbacks" 
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
 
   get "/repos/:name/:repo/builds" => "builds#index"
   get "/repos/:name/:repo/builds/:id" => "builds#show"
+  get "/repos/:name/:repo/builds/:id/replay" => "builds#replay"
 
   get "/me" => "home#me"
   get "/orgs" => "home#orgs"
