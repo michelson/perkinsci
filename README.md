@@ -20,7 +20,7 @@ The webserver is puma. to configure it just run
 
 ### Env config
 
-In production add these env variables to your /etc/environment
+In production add the following env variables to your /etc/environment
 
     export GITHUB_CLIENT_ID=xxx
     export GITHUB_SECRET=xxx
