@@ -11,13 +11,19 @@ class BuildReport < ActiveRecord::Base
     BuildWorker.perform_async(self.id, sha, branch )
   end
 
-  state_machine :build_status, initial: :queued do
+  include AASM
+
+  aasm column: :build_status do
+    state :queued, :initial => true
+    state :stopped
+    state :started
+
     event :start do
-      transition [:queued] => :started
+      transitions :from => :queued, :to => :started
     end
 
     event :stop do
-      transition [:started] => :stopped
+      transitions :from => :started, :to => :stopped
     end
 
   end

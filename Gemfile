@@ -38,7 +38,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'kaminari'
-gem 'state_machines'
+gem 'aasm'
 
 gem 'travis-yaml'
 gem 'sinatra', github: "sinatra/sinatra"

@@ -90,6 +90,7 @@ class Runner
   def start_build
     @running = true
     store_report
+    binding.pry
     @current_report.start!
     @repo.send_sse(status: "start")
     @repo.update_column(:build_status, "started")

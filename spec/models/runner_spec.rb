@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "Runner" do
+describe Runner do
 
   let(:user_api) {
     Octokit::Client.new(
