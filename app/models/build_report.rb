@@ -11,12 +11,15 @@ class BuildReport < ActiveRecord::Base
     BuildWorker.perform_async(self.id, sha, branch )
   end
 
-  def started?
-    build_status == "started"
-  end
+  state_machine :build_status, initial: :queued do
+    event :start do
+      transition [:queued] => :started
+    end
 
-  def stopped?
-    build_status == "stopped"
+    event :stop do
+      transition [:started] => :stopped
+    end
+
   end
 
   def to_duration
@@ -80,6 +83,15 @@ class BuildReport < ActiveRecord::Base
     "#{ENV['ENDPOINT']}/repos/#{repo.name}/builds/#{self.id}"
   end
 
+=begin
+  def started?
+    build_status == "started"
+  end
+
+  def stopped?
+    build_status == "stopped"
+  end
+
   def start!
     update_attribute(:build_status, "started")
   end
@@ -87,5 +99,6 @@ class BuildReport < ActiveRecord::Base
   def stop!
     update_attribute(:build_status, "stopped")
   end
+=end
 
 end

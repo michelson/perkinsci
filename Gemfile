@@ -19,7 +19,7 @@ gem 'chronic_duration'
 gem 'jquery-rails'
 gem 'nprogress-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', github: "rails/turbolinks"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'react_on_rails'
 gem 'material_design_lite-rails'
@@ -38,6 +38,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'kaminari'
+gem 'state_machines'
 
 gem 'travis-yaml'
 gem 'sinatra', github: "sinatra/sinatra"
