@@ -37,7 +37,7 @@ class BuildReport < ActiveRecord::Base
     self.repo.send_sse({ status: "stop", report: self })
     self.send_github_status(sha)
     # enqueue the oldest build report, if any
-    self.repo.build_reports.enqueued.first.try(:enqueue)
+    self.repo.build_reports.queued.first.try(:enqueue)
   end
 
   def enqueue

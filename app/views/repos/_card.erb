@@ -18,9 +18,7 @@
 
     <% if @build.present? %>
       <div class="mdl-card__supporting-text">
-
         <div class="mdl-grid">
-          
           <div class="mdl-cell mdl-cell--9-col">
             <strong>
               <%= status_icon(@build) %>
@@ -51,7 +49,6 @@
         
             <% end %> 
           </div>
-
           <div class="mdl-cell mdl-cell--3-col">
             <% if @build.commit.present? %>
               <strong>
@@ -61,7 +58,7 @@
             <% end %>
 
             <div class="stats">
-              <div class="build-<%=@build.id %> mdl-spinner mdl-js-spinner is-active <%= 'hidden' if @build.stopped? %>">
+              <div class="build-<%=@build.id %> mdl-spinner mdl-js-spinner is-active <%= 'hidden' unless @build.started? %>">
               </div>
 
               <p class="<%= 'hidden' if @build.started? %>">
@@ -86,11 +83,8 @@
               <% end %>
 
             </div>
-
           </div> 
-
         </div> 
-
       </div>
     <% end %>
 
