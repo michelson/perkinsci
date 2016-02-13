@@ -1,7 +1,7 @@
 class BuildReport < ActiveRecord::Base
   belongs_to :repo
 
-  after_create :enqueue
+  after_commit :enqueue, on: :create
 
   serialize :commit
 
@@ -41,14 +41,14 @@ class BuildReport < ActiveRecord::Base
   end
 
   def enqueue
-    BuildWorker.perform_async(self.id, sha, branch )
+    BuildWorker.perform_async(self.id, sha )
   end
 
   def to_duration
     ChronicDuration.output(duration.to_i)
   end
 
-  def build_with(sha, branch)
+  def build_with(sha)
     self.retrieve_commit_info
     repo = self.repo
     repo.attach_runner(self, sha)

@@ -1,5 +1,7 @@
 class ReposController < ApplicationController
 
+  include Concerns::Receiver
+
   def index
     @repos = Repo.added.all
   end
@@ -12,18 +14,6 @@ class ReposController < ApplicationController
     @repo.add_commit(sha, "master")
     redirect_to "/repos/#{@repo.name}"
     #repo.to_json
-  end
-
-  def receiver
-    #NEEDS VALIDATIONS
-    payload = JSON.parse request.raw_post
-    repo    = Repo.added.find_by(gb_id: payload["repository"]["id"])
-    #repo.load_git
-    return {} if payload["ref"].blank? or payload["after"].blank?
-    pushed_branch = payload["ref"].split('/').last
-    repo.add_commit(payload["after"], pushed_branch)
-    "received post #{payload}"
-    render text: "ok"
   end
 
   def add_hook

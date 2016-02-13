@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   end
 
+  get "/repos/receiver" => "repos#receiver"
+
   get "/repos/add/:id" => "repos#add"
   get "/repos/:name/:repo" => "repos#show"
   get "/repos/:name/:repo/run_commit" => "repos#run_commit"

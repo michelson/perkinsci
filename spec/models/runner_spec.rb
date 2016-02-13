@@ -25,7 +25,6 @@ describe Runner do
   context "in repo" do
     let( :repo ){ Repo.find_by(name: test_repo[:full_name]) }
     before :each do
-      #expect(repo.load_git).to be_instance_of(Git::Base)
       @runner = Runner.new
       @runner.config = file
       @runner.repo = repo
@@ -38,8 +37,6 @@ describe Runner do
       @runner.repo.save
 
       @runner.report = @report
-      #allow_any_instance_of(Repo).to receive(:clone_or_load).and_return(true)
-      #allow_any_instance_of(Repo).to receive(:git).and_return(Git::Base.new)
     end
 
     it "runner should raise error in case it fails" do
@@ -48,29 +45,17 @@ describe Runner do
 
     it "should install bundler" do
       expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
-      expect{@report.build_with("master", "master")}.to_not raise_error
-      #expect(Git::Base).to have_received(:chdir)
+      expect{@report.build_with("master")}.to_not raise_error
       expect(@report.reload.duration.to_f).to be > 0
       expect(@report.build_status).to be == "stopped"
     end
 
-    #it "will make repo in sha dir" do
-    #  #allow_any_instance_of(Git::Base).to receive(:chdir).and_return(true)
-    #  @runner.repo.virtual_sha = "master"
-    #  expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
-    #  @runner.run("master")
-    #  #expect{@runner.run("master")}.to_not raise_error
-    #  #expect(Git::Base).to have_received(:chdir)
-    #  
-    #  expect(@report.reload.duration.to_f).to be > 0
-    #  expect(@report.build_status).to be == "stopped"
-    #end
   end
 
   context "a go repo" do
     let( :repo ){ Repo.find_by(name: "michelson/godard") }
     before :each do
-      repo.clone_or_load
+      repo.load_git
       @runner = repo.runner
 
       report = BuildReport.new
@@ -96,7 +81,7 @@ describe Runner do
 
     let( :repo ){ Repo.find_by(name: "michelson/godard") }
     before :each do
-      repo.clone_or_load
+      repo.load_git
       @runner = repo.runner
 
 
@@ -120,7 +105,7 @@ describe Runner do
     let( :repo ){ Repo.find_by(name: "michelson/godard") }
     before :each do
 
-      repo.clone_or_load
+      repo.load_git
       @runner = repo.runner
 
       @report = BuildReport.new
@@ -144,9 +129,9 @@ describe Runner do
 
     it "check multiple commands" do 
       allow_any_instance_of(Repo).to receive(:check_config_existence).and_return(file)
-      allow_any_instance_of(Repo).to receive(:has_config_yml?).and_return(true)
+      # allow_any_instance_of(Repo).to receive(:has_config_yml?).and_return(true)
       config = Repo.first.check_config_existence
-      repo = Repo.first
+      repo   = Repo.first
       script = Perkins::Build::script(config, repo).compile
     end
   end

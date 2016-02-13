@@ -177,6 +177,7 @@ GEM
     colorize (0.7.7)
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     dotenv (2.1.0)
@@ -185,6 +186,11 @@ GEM
       railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.6.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     git (1.2.9.1)
@@ -341,8 +347,10 @@ DEPENDENCIES
   chronic_duration
   coffee-rails
   colorize
+  database_cleaner
   devise!
   dotenv-rails
+  factory_girl_rails
   git
   jbuilder (~> 2.0)
   jquery-rails
