@@ -1,5 +1,7 @@
 class ReposController < ApplicationController
 
+  include Concerns::Receiver
+
   def index
     @repos = Repo.added.all
   end
@@ -14,18 +16,6 @@ class ReposController < ApplicationController
     #repo.to_json
   end
 
-  def receiver
-    #NEEDS VALIDATIONS
-    payload = JSON.parse request.raw_post
-    repo    = Repo.added.find_by(gb_id: payload["repository"]["id"])
-    #repo.load_git
-    return {} if payload["ref"].blank? or payload["after"].blank?
-    pushed_branch = payload["ref"].split('/').last
-    repo.add_commit(payload["after"], pushed_branch)
-    "received post #{payload}"
-    render text: "ok"
-  end
-
   def add_hook
     repo = find_repo
     hook = repo.add_hook(params[:webhook_url])
@@ -35,6 +25,7 @@ class ReposController < ApplicationController
   def show
     find_repo
     @build = @repo.build_reports.availables.last
+    @builds = @repo.build_reports.order("id desc")
   end
 
   def add

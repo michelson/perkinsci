@@ -2,19 +2,19 @@ class BuildsController < ApplicationController
 
   def show
     find_repo
-    @build = @repo.build_reports.availables.find(params[:id])
+    @build = @repo.build_reports.find(params[:id])
   end
 
   def index
     find_repo
-    @builds = @repo.build_reports.availables
+    @builds = @repo.build_reports
   end
 
   def replay
     find_repo
-    @build = @repo.build_reports.availables.find(params[:id])
+    @build = @repo.build_reports.find(params[:id])
     @repo.add_commit(@build.sha, @build.branch)
-    redirect_to "/repos/#{@repo.name}"    
+    redirect_to "/repos/#{@repo.name}" , notice: "Re enqueued build"  
   end
 
 private

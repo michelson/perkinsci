@@ -66,18 +66,18 @@ class Runner
     self.sha = sha
     start_build
     self.repo.virtual_sha = "-#{@current_report.id}-#{self.sha}"
-    #it actually clone repo and instantiates git data
-    repo.load_git
-    #fetch & reset to sha
+    
+    # it actually clone repo and instantiates git data
+    # repo.load_git
+    
+    # fetch & reset to sha
     git_update(sha)
-    #check travis yml
+    
+    # check travis yml
     config = repo.check_config_existence
-    #build script
+    # build script
     script = Perkins::Build::script(config, repo)
-
-    repo.git.chdir do
-      #puts "CURRENT DIR: #{Dir.pwd} !!!!!"
-      #puts "CURRENT GIT DIR: #{repo.git.dir.path} !!!!!"
+    repo.chdir do
       set_build_stats do
         puts "perform build".green
         self.exec(script.compile)
@@ -90,26 +90,21 @@ class Runner
   def start_build
     @running = true
     store_report
-    binding.pry
     @current_report.start!
-    @repo.send_sse(status: "start")
-    @repo.update_column(:build_status, "started")
-    @current_report.build_status_report(sha, "pending")
   end
 
   def stop_build
     @running = false
-    @current_report.stop!
     @current_report.update_attributes(self.to_report)
-    @repo.update_column(:build_status, "stopped")
-    @repo.send_sse({ status: "stop", report: self })
-    @current_report.send_github_status(sha)
+    @current_report.stop!
   end
 
   def set_build_stats(&block)
     up = Time.now
-    #call the command itself
+
+    # call the command itself
     block.call
+
     down = Time.now
     @build_time = down
     @duration = down - up
@@ -128,13 +123,24 @@ class Runner
   end
 
   def working_dir
-    repo.git.dir.path
+    repo.local_path
+    # repo.git.dir.path
   end
 
   def git_update(branch)
-    puts "fetch repo & reset to sha #{sha}".green
-    repo.git.fetch()
-    puts repo.git.reset_hard(sha).green
+    puts "fetch repo & reset to ref #{sha}".green
+    
+    # TODO better gateway for this, maybe multi service, or muti strategy (git repo, github, gitlab, bitbucket) ?
+    
+    archive = $github_client.archive_link(repo.name, ref: sha)
+    system("mkdir -p #{repo.local_path}")
+    system("curl -L #{archive} > #{repo.local_path}.tar.gz")
+    system("tar --strip-components=1 -xvf #{repo.local_path}.tar.gz -C #{repo.local_path}")
+    system("rm #{repo.local_path}.tar.gz")
+    
+    # strategy 2 , file
+    # repo.git.fetch()
+    # puts repo.git.reset_hard(sha).green
   end
 
   #TODO: add a serialized commit in order to avoid

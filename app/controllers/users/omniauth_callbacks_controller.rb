@@ -1,8 +1,10 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
-
   def github
-    # You need to implement the method below in your model (e.g. app/models/user.rb)
+
+    if outsider_githubber?
+      redirect_to root_path, alert: "Sorry, invalid github account!"  and return
+    end
 
     @user = User.from_omniauth(request.env["omniauth.auth"])
     
@@ -22,5 +24,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to root_path
   end
 
+  def outsider_githubber?
+    # if the org list empty , will not validate
+    return if Rails.application.secrets.allowed_orgs.blank?
+    
+    cli = Octokit::Client.new(access_token: request.env["omniauth.auth"]["credentials"]["token"])
+    orgs = cli.orgs.map{|o| o[:login]}
+
+    check = (orgs & Rails.application.secrets.allowed_orgs).any?
+
+    # check if user belongs to configured organizations
+    !check
+  end
 
 end

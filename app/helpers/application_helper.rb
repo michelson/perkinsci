@@ -19,7 +19,9 @@ module ApplicationHelper
   end
 
   def status_icon(build)
-    if build.blank? or build.build_status == "started"
+    if build.blank? or build.queued?
+      raw "<i class='material-icons'>watch_later</i>"
+    elsif build.started?
       raw "<i class='material-icons'>cached</i>"
     elsif build.build_status == "stopped"
       if build.status? 

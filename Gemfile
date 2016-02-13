@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails',  github: 'rails/rails'
+
+gem 'mysql2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -34,6 +36,7 @@ gem 'git'
 gem 'devise', github: "plataformatec/devise"
 gem 'octokit'
 gem 'sidekiq'
+# gem 'sidekiq-cron'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', :groups => [:development, :test]
@@ -50,12 +53,20 @@ gem 'colorize'
 gem 'puma'
 
 # Use Capistrano for deployment
-gem 'capistrano-rails', group: :development
+group :development do 
+  gem 'capistrano-rails'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundle'
+  gem 'capistrano-sidekiq'
+end
 
 group :test do 
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 group :development, :test do

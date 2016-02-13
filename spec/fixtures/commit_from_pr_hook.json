@@ -1,0 +1,162 @@
+{
+  "ref": "refs/heads/michelson-patch-1",
+  "before": "0000000000000000000000000000000000000000",
+  "after": "eecdbe5a602aa57c1feb3df40ab44a607b35dd9a",
+  "created": true,
+  "deleted": false,
+  "forced": true,
+  "base_ref": null,
+  "compare": "https://github.com/michelson/foo/commit/eecdbe5a602a",
+  "commits": [
+    {
+      "id": "eecdbe5a602aa57c1feb3df40ab44a607b35dd9a",
+      "distinct": true,
+      "message": "summary gemspec",
+      "timestamp": "2016-02-13T02:06:36-03:00",
+      "url": "https://github.com/michelson/foo/commit/eecdbe5a602aa57c1feb3df40ab44a607b35dd9a",
+      "author": {
+        "name": "Miguel Michelson Martinez",
+        "email": "miguelmichelson@gmail.com",
+        "username": "michelson"
+      },
+      "committer": {
+        "name": "Miguel Michelson Martinez",
+        "email": "miguelmichelson@gmail.com",
+        "username": "michelson"
+      },
+      "added": [
+
+      ],
+      "removed": [
+
+      ],
+      "modified": [
+        "Foo.gemspec"
+      ]
+    }
+  ],
+  "head_commit": {
+    "id": "eecdbe5a602aa57c1feb3df40ab44a607b35dd9a",
+    "distinct": true,
+    "message": "summary gemspec",
+    "timestamp": "2016-02-13T02:06:36-03:00",
+    "url": "https://github.com/michelson/foo/commit/eecdbe5a602aa57c1feb3df40ab44a607b35dd9a",
+    "author": {
+      "name": "Miguel Michelson Martinez",
+      "email": "miguelmichelson@gmail.com",
+      "username": "michelson"
+    },
+    "committer": {
+      "name": "Miguel Michelson Martinez",
+      "email": "miguelmichelson@gmail.com",
+      "username": "michelson"
+    },
+    "added": [
+
+    ],
+    "removed": [
+
+    ],
+    "modified": [
+      "Foo.gemspec"
+    ]
+  },
+  "repository": {
+    "id": 39860886,
+    "name": "foo",
+    "full_name": "michelson/foo",
+    "owner": {
+      "name": "michelson",
+      "email": "miguelmichelson@gmail.com"
+    },
+    "private": false,
+    "html_url": "https://github.com/michelson/foo",
+    "description": "",
+    "fork": false,
+    "url": "https://github.com/michelson/foo",
+    "forks_url": "https://api.github.com/repos/michelson/foo/forks",
+    "keys_url": "https://api.github.com/repos/michelson/foo/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/michelson/foo/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/michelson/foo/teams",
+    "hooks_url": "https://api.github.com/repos/michelson/foo/hooks",
+    "issue_events_url": "https://api.github.com/repos/michelson/foo/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/michelson/foo/events",
+    "assignees_url": "https://api.github.com/repos/michelson/foo/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/michelson/foo/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/michelson/foo/tags",
+    "blobs_url": "https://api.github.com/repos/michelson/foo/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/michelson/foo/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/michelson/foo/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/michelson/foo/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/michelson/foo/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/michelson/foo/languages",
+    "stargazers_url": "https://api.github.com/repos/michelson/foo/stargazers",
+    "contributors_url": "https://api.github.com/repos/michelson/foo/contributors",
+    "subscribers_url": "https://api.github.com/repos/michelson/foo/subscribers",
+    "subscription_url": "https://api.github.com/repos/michelson/foo/subscription",
+    "commits_url": "https://api.github.com/repos/michelson/foo/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/michelson/foo/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/michelson/foo/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/michelson/foo/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/michelson/foo/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/michelson/foo/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/michelson/foo/merges",
+    "archive_url": "https://api.github.com/repos/michelson/foo/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/michelson/foo/downloads",
+    "issues_url": "https://api.github.com/repos/michelson/foo/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/michelson/foo/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/michelson/foo/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/michelson/foo/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/michelson/foo/labels{/name}",
+    "releases_url": "https://api.github.com/repos/michelson/foo/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/michelson/foo/deployments",
+    "created_at": 1438122686,
+    "updated_at": "2015-07-28T22:31:41Z",
+    "pushed_at": 1455339997,
+    "git_url": "git://github.com/michelson/foo.git",
+    "ssh_url": "git@github.com:michelson/foo.git",
+    "clone_url": "https://github.com/michelson/foo.git",
+    "svn_url": "https://github.com/michelson/foo",
+    "homepage": null,
+    "size": 144,
+    "stargazers_count": 0,
+    "watchers_count": 0,
+    "language": "Ruby",
+    "has_issues": true,
+    "has_downloads": true,
+    "has_wiki": true,
+    "has_pages": false,
+    "forks_count": 0,
+    "mirror_url": null,
+    "open_issues_count": 1,
+    "forks": 0,
+    "open_issues": 1,
+    "watchers": 0,
+    "default_branch": "master",
+    "stargazers": 0,
+    "master_branch": "master"
+  },
+  "pusher": {
+    "name": "michelson",
+    "email": "miguelmichelson@gmail.com"
+  },
+  "sender": {
+    "login": "michelson",
+    "id": 11976,
+    "avatar_url": "https://avatars.githubusercontent.com/u/11976?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/michelson",
+    "html_url": "https://github.com/michelson",
+    "followers_url": "https://api.github.com/users/michelson/followers",
+    "following_url": "https://api.github.com/users/michelson/following{/other_user}",
+    "gists_url": "https://api.github.com/users/michelson/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/michelson/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/michelson/subscriptions",
+    "organizations_url": "https://api.github.com/users/michelson/orgs",
+    "repos_url": "https://api.github.com/users/michelson/repos",
+    "events_url": "https://api.github.com/users/michelson/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/michelson/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}

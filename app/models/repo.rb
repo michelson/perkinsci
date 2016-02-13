@@ -1,5 +1,7 @@
 class Repo < ActiveRecord::Base
-  attr_accessor :git
+  
+  # attr_accessor :git
+
   attr_accessor :new_commit, :runner, :virtual_sha
 
   has_many :build_reports #, class_name: 'BuildReport'
@@ -9,6 +11,8 @@ class Repo < ActiveRecord::Base
 
   scope :from_github, ->{where(cached: true)}
   scope :added, ->{where(cached: false)}
+
+  include Concerns::GithubGateway
 
   def self.add_repo(id)
     repo = $github_client.repo(id.to_i)
@@ -64,35 +68,8 @@ class Repo < ActiveRecord::Base
   end
 
   def load_git
-    clone_or_load
-  end
-
-  def download!
-    # we need this only in the context of the first clone
-    # in the context of builds we are not going to notice 
-    # the user that we are cloning the repo
-    if self.virtual_sha.present?
-      send_sse( status: "downloading")
-      #self.update_column(:download_status, "downloading")
-    end
-
-    #clone repo
-    ssh_url = self.github_data["ssh_url"]
-    Git.clone(ssh_url, download_name, :path => working_dir)
+    download
     open
-    
-    #TODO: fix this & handle with care
-    begin
-      add_hook #permissions issue
-    rescue Exception => e
-      puts e.message
-    end
-
-    send_sse(status: "downloaded") if self.virtual_sha.present?
-  end
-
-  def download_name
-    [name, self.virtual_sha].join
   end
 
   def add_hook(url=nil)
@@ -150,35 +127,16 @@ class Repo < ActiveRecord::Base
     $github_client.hook(self.name, self.hook_id)
   end
 
-  def clone_or_load
-    if exists?
-      open
-    else
-      download!
-    end
-  end
+  #def clone_or_load
+  #  if exists?
+  #    open
+  #  else
+  #    download
+  #  end
+  #end
 
-  def open
-    self.git = Git.open(local_path) #, :log => Logger.new(STDOUT) )
-    build_runner_config
-  end
-
-  def check_config_existence
-    puts "check travis.yml in: #{self.git.dir.path}".yellow
-    config = self.git.chdir{
-      if has_config_yml?
-        config = Travis::Yaml.parse( File.open(".travis.yml").read )
-      else
-        config = Travis::Yaml.new
-      end
-      puts config.to_json.green
-      config
-    }
-    config
-  end
-
-  def has_config_yml?
-    File.exist?(".travis.yml")
+  def download_name
+    [name, self.virtual_sha].join
   end
 
   def exists?
@@ -187,10 +145,6 @@ class Repo < ActiveRecord::Base
 
   def local_path
    [ self.working_dir , self.download_name].join("/")
-  end
-
-  def branches
-    self.git.branches.map(&:name)
   end
 
   #http://docs.travis-ci.com/user/build-configuration/#The-Build-Matrix
@@ -215,21 +169,13 @@ class Repo < ActiveRecord::Base
   end
 
   def add_commit(sha, branch)
-    #if runner_branch.include?(branch)
-      #@new_commit = Commit.new(sha, self)
-      #@new_commit.branch = branch
-      #enqueue_commit(@new_commit)
-      enqueue_commit(sha, branch)
-    #else
-    #  puts "skipping commit from branch #{branch}"
-    #end
+    enqueue_commit(sha, branch)
   end
 
   def enqueue_commit(sha, branch)
     report = BuildReport.new
     report.sha = sha 
     report.branch = branch
-
     self.build_reports << report
     self.save
   end
@@ -237,7 +183,7 @@ class Repo < ActiveRecord::Base
   def attach_runner(report, sha)
     self.virtual_sha = "-#{report.id}-#{sha}"
     # will try to copy a base instance of repo
-    self.copy_base_repo_to_runner_sha
+    # self.copy_base_repo_to_runner_sha
     # repo.build_runner_config
     # it actually clone repo and instantiates git 
     # data & check travis.yml
@@ -277,10 +223,8 @@ class Repo < ActiveRecord::Base
   def send_sse(msg)
     opts = {repo: {id: self.id, name: self.name }}
     opts[:repo].merge!(msg) if msg.is_a?(Hash)
-    json_opts = opts.to_json
-    #puts "Notify #{json_opts}".yellow
+    # Notify 
     ActionCable.server.broadcast "build_channel", opts
-    #Redis.current.publish("message.", json_opts)
   end
 
 end

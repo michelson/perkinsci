@@ -1,15 +1,9 @@
 class BuildReport < ActiveRecord::Base
   belongs_to :repo
 
-  after_create :enqueue
+  after_commit :enqueue, on: :create
 
   serialize :commit
-
-  scope :availables, ->{where("build_status =? OR build_status =?", "started", "stopped" )}
-
-  def enqueue
-    BuildWorker.perform_async(self.id, sha, branch )
-  end
 
   include AASM
 
@@ -18,21 +12,43 @@ class BuildReport < ActiveRecord::Base
     state :stopped
     state :started
 
-    event :start do
+    event :start, :after_commit => :notify_start_job do
       transitions :from => :queued, :to => :started
     end
 
-    event :stop do
+    event :stop, :after_commit => :notify_stopped_job do
       transitions :from => :started, :to => :stopped
     end
 
+  end
+
+  scope :availables, ->{
+    where("build_status IN(?)", ["started", "stopped"])
+  }
+
+  def notify_start_job
+    self.repo.send_sse(status: "start")
+    #@repo.update_column(:build_status, "started")
+    self.build_status_report(self.sha, "pending")
+  end
+
+  def notify_stopped_job
+    self.repo.update_column(:build_status, "stopped")
+    self.repo.send_sse({ status: "stop", report: self })
+    self.send_github_status(sha)
+    # enqueue the oldest build report, if any
+    self.repo.build_reports.queued.first.try(:enqueue)
+  end
+
+  def enqueue
+    BuildWorker.perform_async(self.id, sha )
   end
 
   def to_duration
     ChronicDuration.output(duration.to_i)
   end
 
-  def build_with(sha, branch)
+  def build_with(sha)
     self.retrieve_commit_info
     repo = self.repo
     repo.attach_runner(self, sha)
@@ -65,7 +81,6 @@ class BuildReport < ActiveRecord::Base
 
   # Status report to GITHUB repo
   def build_status_report(sha, state)
-    puts "Sending Github #{state} status to #{self.repo.name}".green
     $github_client.create_status(
       self.repo.name, sha,
       state, 
@@ -74,6 +89,7 @@ class BuildReport < ActiveRecord::Base
         target_url: github_state_url 
       }
     )
+    puts "Sending Github #{state} status to #{self.repo.name}".green
   end
 
   def github_state
@@ -88,23 +104,5 @@ class BuildReport < ActiveRecord::Base
   def github_state_url
     "#{ENV['ENDPOINT']}/repos/#{repo.name}/builds/#{self.id}"
   end
-
-=begin
-  def started?
-    build_status == "started"
-  end
-
-  def stopped?
-    build_status == "stopped"
-  end
-
-  def start!
-    update_attribute(:build_status, "started")
-  end
-
-  def stop!
-    update_attribute(:build_status, "stopped")
-  end
-=end
 
 end

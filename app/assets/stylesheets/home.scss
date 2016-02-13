@@ -22,6 +22,11 @@ $nprogress-zindex: 10100;
     padding: 16px;
     border-radius: 2px;
     color: #212121;
+
+    position: absolute;
+    z-index: 9999;
+    top: 27px;
+    left: 11%;
 }
 
 .icon-github-circle, .repo-gh a {
@@ -34,15 +39,15 @@ $nprogress-zindex: 10100;
   margin-top: 4px;
 }
 
-.black{
+header.black{
   background-color: rgb(66,66,66);
 }
 
-.red{
+header.red{
   background-color: rgb(244, 67, 54);
 }
 
-.green{
+header.green{
   background-color: rgb(139, 195, 74);
 }
 

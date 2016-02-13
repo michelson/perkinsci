@@ -6,26 +6,14 @@ require 'rails_helper'
 
 describe "Repo" do
 
-  let(:user_api) {
-    Octokit::Client.new(
-      login: ENV['LOGIN'],
-      access_token: ENV['ACCESS_TOKEN']
-    )
-  }
-
   let(:file){
     f = File.expand_path(File.dirname(__FILE__) + '/../fixtures/.travis.yml')
     Travis::Yaml.parse( File.open(f).read )
   }
 
-  #let(:github_user){
-  #  Warden::GitHub::User.new
-  #}
-
   before(:all) do
-    #allow_any_instance_of(Warden::GitHub::User).to receive(:api).and_return(user_api)
-    #@user = Warden::GitHub::User.new
     Repo.sync_github_repos(github_user)
+    FileUtils.rm_r(Repo.first.local_path) rescue "nothing to remove, file not exists"
   end
 
   it "all should return repos" do
@@ -40,6 +28,22 @@ describe "Repo" do
     expect(r.url).to_not be_blank
   end
 
+  it "check travis will return travis object" do 
+    r = Repo.first
+    expect(r.check_config_existence.language).to be == "ruby"
+  end
+
+  it "download will persist file in working dir" do 
+    r = Repo.first
+    r.download
+    expect(File.exists?(r.local_path)).to be_truthy
+  end
+
+  it "branches will respond array" do 
+    expect(Repo.first.branches.map{|o| o[:name] }).to include("master")
+  end
+
+=begin
   context "load git" do
     before :each do
       @repo = Repo.find_by(name: test_repo[:full_name])
@@ -75,19 +79,19 @@ describe "Repo" do
       expect(@repo.branches).to include("master")
     end
   end
+=end
 
   context "runner config" do
     before :each do
       @repo = Repo.find_by(name: test_repo[:full_name])
       allow_any_instance_of(Repo).to receive(:check_config_existence).and_return(file)
       @repo.load_git
-      expect(@repo.git).to be_instance_of(Git::Base)
-      @path = @repo.git.dir.path
     end
 
     it "should have a runner" do
       expect(@repo.runner).to be_instance_of(Runner)
     end
+
   end
 
   context "receive commit" do
