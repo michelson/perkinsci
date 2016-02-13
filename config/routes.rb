@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get "/repos/add/:id" => "repos#add"
   get "/repos/:name/:repo" => "repos#show"
   get "/repos/:name/:repo/run_commit" => "repos#run_commit"
+  get "/repos/:name/:repo/badge" => "repos#badge"
 
   get "/repos/:name/:repo/builds" => "builds#index"
   get "/repos/:name/:repo/builds/:id" => "builds#show"

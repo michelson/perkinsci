@@ -33,8 +33,26 @@ class ReposController < ApplicationController
     redirect_to "/"
   end
 
+  def badge
+    find_repo
+    build = @repo.build_reports.last
+    contents = request_badge({status: build.status ? "passing" : "error" , color: build.status ? "green" : "red" })
+    #render file: filename, content_type: "image/svg+xml"
+    send_data contents, type: "image/svg+xml", disposition: 'inline'
+  end
+
 private
   def find_repo
     @repo = Repo.find_by(name: "#{params[:name]}/#{params[:repo]}")
+  end
+
+  def request_badge(opts={})
+    begin
+      image_path = "https://img.shields.io/badge/build-#{opts[:status]}-#{opts[:color]}.svg?style=flat-square"
+      url = URI.parse(image_path)
+      result = Net::HTTP.get(url)
+    rescue => e
+      e
+    end
   end
 end
