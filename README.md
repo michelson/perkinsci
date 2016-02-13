@@ -12,7 +12,7 @@ The server will work with RVM with ruby 2.2.2
 
 the deploy will start puma server and sidekiq instance
 
-The webserver is puma. to configure it just run
+The default webserver is puma. to configure it just run
 
     cap production puma:config
   
@@ -32,4 +32,4 @@ In production add the following env variables to your /etc/environment
     export WORKING_DIR=/tmp
     export SECRET_KEY_BASE=xxxx
 
-In development use the .env file
+In development use the `.env` file, rename `.env.example` to `.env`

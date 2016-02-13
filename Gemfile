@@ -23,7 +23,7 @@ gem 'nprogress-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', github: "rails/turbolinks"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'react_on_rails'
+gem 'react-rails'
 gem 'material_design_lite-rails'
 
 gem 'jbuilder', '~> 2.0'
