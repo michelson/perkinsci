@@ -1,28 +1,3 @@
-<%= render "card" %>
+<%= react_component "RepoFetcher", url: "/repos/#{@repo.name}" %>
 
-<div class="mdl-card__title">
-  <h3 class="mdl-card__title-text">
-    Builds jobs
-  </h3>
-</div>
-
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%">
-  
-  <thead>
-    <tr>
-      <th class="mdl-data-table__cell--non-numeric">
-        Build
-      </th>
-      <th>Status</th>
-      <th>Message</th>
-      <th>Commit</th>
-      <th>Duration</th>
-      <th>Finished At</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <%= render partial: "builds/row", collection: @builds, as: :build, locals: { repo: @repo } %>
-  </tbody>
-
-</table>
+<%= react_component "BuildsCollection", url: "/repos/#{@repo.name}/builds" %>

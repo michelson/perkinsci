@@ -6,6 +6,10 @@ class ReposController < ApplicationController
     @repos = Repo.added.all
   end
 
+  def side
+    @repos = Repo.added.all
+  end
+
   def run_commit
     @repo = find_repo
     sha = $github_client

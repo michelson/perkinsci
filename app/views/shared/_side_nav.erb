@@ -13,16 +13,7 @@
     <div class="mdl-tabs__panel is-active" id="myrepos">
 
       <ul class="demo-list-icon mdl-list">
-        <% Repo.all.each do |repo| %>
-          <!--
-          <li class="mdl-list__item">
-            <span class="mdl-list__item-primary-content">
-              <%= link_to repo.name, "/repos/#{repo.name}" %>
-            </span>
-          </li>
-          -->
-          <%= render "repos/mini_card", repo: repo, build: repo.build_reports.availables.last %>
-        <% end %>
+        <%= react_component 'RepoCardCollection', url: "/repos/side", kind: "mini" %>
       </ul>
 
     </div>

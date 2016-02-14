@@ -27,14 +27,14 @@ class BuildReport < ActiveRecord::Base
   }
 
   def notify_start_job
-    self.repo.send_sse(status: "start")
+    self.repo.send_sse(status: "start", report: self )
     #@repo.update_column(:build_status, "started")
     self.build_status_report(self.sha, "pending")
   end
 
   def notify_stopped_job
-    self.repo.update_column(:build_status, "stopped")
-    self.repo.send_sse({ status: "stop", report: self })
+    # self.repo.update_column(:build_status, "stopped")
+    self.repo.send_sse({ status: "finished", report: self })
     self.send_github_status(sha)
     # enqueue the oldest build report, if any
     self.repo.build_reports.queued.first.try(:enqueue)
@@ -88,7 +88,7 @@ class BuildReport < ActiveRecord::Base
         description: github_state_description , 
         target_url: github_state_url 
       }
-    )
+    ) rescue "error sending github state!!!! notify this"
     puts "Sending Github #{state} status to #{self.repo.name}".green
   end
 

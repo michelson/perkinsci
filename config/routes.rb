@@ -17,11 +17,8 @@ Rails.application.routes.draw do
 
   resources :profile, controller: :profile
 
-  resources :repos do 
-
-  end
-
   get "/repos/receiver" => "repos#receiver"
+  get "/repos/side" => "repos#side"
 
   get "/repos/add/:id" => "repos#add"
   get "/repos/:name/:repo" => "repos#show"
