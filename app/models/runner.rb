@@ -61,7 +61,7 @@ class Runner
     git_update(sha)
     
     # check travis yml
-    config = repo.check_config_existence
+    config = repo.check_config_existence(sha)
     # build script
     script = Perkins::Build::script(config, repo)
     repo.chdir do

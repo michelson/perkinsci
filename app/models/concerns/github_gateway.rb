@@ -2,11 +2,12 @@ module Concerns
   module GithubGateway
     include ActiveSupport::Concern
 
-    def check_config_existence
+    def check_config_existence(sha="master")
       puts "check travis.yml in: #{self.name}".yellow
-      
+
       begin
-        content = $github_client.contents(repo.name, :path => '.travis.yml')
+        opts = { :path => '.travis.yml', :ref => sha })
+        content = $github_client.contents(self.name, opts)
       rescue
         return Travis::Yaml.new
       end
