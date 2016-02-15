@@ -6,6 +6,10 @@ class ReposController < ApplicationController
     @repos = Repo.added.all
   end
 
+  def side
+    @repos = Repo.added.all
+  end
+
   def run_commit
     @repo = find_repo
     sha = $github_client
@@ -24,7 +28,7 @@ class ReposController < ApplicationController
 
   def show
     find_repo
-    @build = @repo.build_reports.availables.last
+    @build = @repo.build_reports.last
     @builds = @repo.build_reports.order("id desc")
   end
 

@@ -14,7 +14,14 @@
 
 //= require jquery
 //= require jquery_ujs
+//= require vendor/md5
+//= require vendor/jquery.timeago
 //= require turbolinks
+//= require react
+//= require react_ujs
+//= require components
+
+
 //= require nprogress
 //= require nprogress-turbolinks
 

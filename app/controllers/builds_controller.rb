@@ -7,14 +7,16 @@ class BuildsController < ApplicationController
 
   def index
     find_repo
-    @builds = @repo.build_reports
+    @builds = @repo.build_reports.order("id desc")
   end
 
   def replay
     find_repo
     @build = @repo.build_reports.find(params[:id])
-    @repo.add_commit(@build.sha, @build.branch)
-    redirect_to "/repos/#{@repo.name}" , notice: "Re enqueued build"  
+    if @repo.add_commit(@build.sha, @build.branch)
+      render json: {status: "ok"}
+    end
+    #redirect_to "/repos/#{@repo.name}" , notice: "Re enqueued build"  
   end
 
 private

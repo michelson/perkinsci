@@ -8,6 +8,11 @@ $nprogress-zindex: 10100;
 
 @import 'nprogress';
 
+
+.mdl-spinner:not(.is-upgraded).is-active:after{
+  content: "";
+}
+
 .mdl-data-table th {
   text-align: left !important;
 }
@@ -49,6 +54,10 @@ header.red{
 
 header.green{
   background-color: rgb(139, 195, 74);
+}
+
+header.yellow{
+  background-color: rgb(255, 235, 59);
 }
 
 .mini-card {

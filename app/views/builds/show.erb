@@ -1,3 +1,4 @@
-<%= render "repos/card" %>
+<%= react_component "RepoFetcher", url: "/repos/#{@repo.name}" %>
 
-<%= render "log" %>
+<%= react_component "BuildLog", url: "/repos/#{@repo.name}/builds/#{@build.id}" %>
+

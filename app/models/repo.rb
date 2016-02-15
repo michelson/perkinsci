@@ -221,8 +221,10 @@ class Repo < ActiveRecord::Base
   end
 
   def send_sse(msg)
+    self.update_attribute(:build_status, msg[:status] )
     opts = {repo: {id: self.id, name: self.name }}
-    opts[:repo].merge!(msg) if msg.is_a?(Hash)
+    opts[:message] = msg if msg.is_a?(Hash)
+
     # Notify 
     ActionCable.server.broadcast "build_channel", opts
   end

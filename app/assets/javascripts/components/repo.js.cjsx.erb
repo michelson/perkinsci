@@ -1,0 +1,443 @@
+@RepoCardCollection = React.createClass
+
+  getInitialState: ->
+    collection: []
+
+  ping: ()->
+    @fetchRepos()
+  
+  fetchRepos: ->
+    $.get "#{@props.url}.json", ((result) ->
+      if @isMounted()
+        @setState
+          collection: result.collection
+      return
+    ).bind(this)
+
+  componentDidMount: ->
+    @ping()
+
+  render: ->
+    return (
+      <div>
+        {
+          @state.collection.map (resource)=>
+            <RepoMiniCard 
+              key={resource.repo.id} 
+              repo={resource.repo} 
+              build={resource.build}
+              ping={@ping}
+            />
+        }
+      </div>
+    )
+
+@RepoFetcher = React.createClass
+
+  getInitialState: ->
+    resource: 
+      build: {}
+      repo: {}
+
+  ping: ->
+    console.log("request ping!")
+
+    @fetchRepo()
+
+  fetchRepo: ->
+    $.get "#{@props.url}.json", ((result) ->
+      if @isMounted()
+        @setState
+          resource: result.resource
+      return
+    ).bind(this)
+
+  componentDidMount: ->
+    @fetchRepo()
+
+  render: ->
+    return (
+      <RepoCard 
+        repo={@state.resource.repo} 
+        build={@state.resource.build}
+        ping={@ping}
+      />
+    )
+
+@RepoMiniCard = React.createClass
+
+  linkTo: (label, url)->
+    "<a href='#{url}'>#{label}</a>"
+
+  componentDidMount: ->
+
+    $(ReactDOM.findDOMNode(this)).on "refresh", (ev, data)=>
+      if data.message && data.message.report 
+        console.log("alert on mini card, it's alive!! #{@} #{data}")
+        @props.ping()
+
+  render: ->
+    return (
+
+      <section className="repo-#{@props.repo.id} section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp mini-card">
+        {if @props.build 
+          <BuildColor 
+            status={@props.build.status}
+            build_status={@props.build.build_status}
+          />
+        }
+        <div className="mdl-card mdl-cell mdl-cell--11-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+          <div className="mdl-card__supporting-text">
+            <span className="title">
+              {if @props.build
+                <StatusIcon 
+                  status={@props.build.status}
+                  build_status={@props.build.build_status}
+                />
+              }
+              <span className="truncate">
+                <a href="/repos/#{@props.repo.name}">
+                  {@props.repo.name} 
+                </a>       
+              </span>
+              
+              {if @props.build
+                <CardStats 
+                finished={@props.build.finished} 
+                duration={@props.build.duration}/>
+              }
+
+            </span>
+          </div>
+        </div>
+      </section>
+
+    )
+
+@ShowRepo = React.createClass
+
+  render: ->
+    return (
+      <div>
+        <RepoFetcher url="/repos/#{@props.name}" />
+        <BuildsCollection url="/repos/#{@props.name}/builds" />
+      </div>
+    )
+
+@RepoCard = React.createClass
+
+  githubIcon: ->
+    "<%= image_path('github.svg')%>"
+
+  componentDidMount: ->
+
+    $(ReactDOM.findDOMNode(this)).on "refresh", (ev, data)=>
+      if data.message && data.message.report 
+        console.log("alert CARD, it`s alive!! #{@} #{data}")
+        @props.ping()
+
+  render: ->
+    return (
+
+      <section className="repo-#{@props.repo.id} section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+
+        {if @props.build
+          <BuildColor 
+            build_status={@props.build.build_status}
+            status={@props.build.status}
+          />
+        }
+
+        <div className="mdl-card mdl-cell mdl-cell--11-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+
+          <RepoTitle repo={@props.repo} />
+
+          <BuildInfo 
+            build={@props.build} 
+            repo={@props.repo}
+            ping={@props.ping}
+          />
+
+          { if !@props.build
+            <div className="mdl-card__actions mdl-card--border">
+              <a href="/repos/#{@props.repo.name}/run_commit" 
+                className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <img src="#{@githubIcon()}" width="25"/>
+                Run last commit
+              </a>
+            </div>
+          }
+
+
+        </div>
+        
+      </section>
+    )
+
+@RepoTitle = React.createClass
+
+  repoName: ->
+    if @props.repo then @props.repo.name else ""
+
+  render: ->
+    return (
+      <div className="mdl-card__title">
+        
+        <h2 className="mdl-card__title-text">
+          {@repoName()}
+
+          <span className="repo-gh">
+            <a href="https://github.com/#{@repoName()}" 
+            title={@repoName()} 
+            target="blank">
+              {@repoName()} on Github
+            </a>        
+          </span>
+
+        </h2>
+      </div>
+    )
+
+@CardStats = React.createClass
+
+  componentDidMount: ->
+    $(ReactDOM.findDOMNode(this))
+    .find("abbr.timeago").timeago();
+
+  render: ->
+    return (
+      <div className="stats">
+        <p> 
+          <strong>Duration:</strong> 
+          { @props.duration }
+        </p>
+        <p> 
+          <strong>Finished:</strong> 
+          <abbr className="timeago" title={@props.finished}/>
+        </p>  
+      </div>
+    )
+
+@BuildColor = React.createClass
+
+  buildColor: ->
+    switch @props.build_status
+      when "pending", "started"
+        "yellow"
+      when "queued"
+        "black"
+      when "stopped"
+        if @props.status then "green" else "red"
+      else
+        "black"
+
+  render: ->
+
+    return (
+
+      <header className="section__play-btn mdl-cell mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone #{@buildColor()} mdl-color-text--white">
+      </header>
+
+    )
+
+@StatusIcon = React.createClass
+
+  iconClass: ->
+    switch @props.build_status
+      when "queued", "started"
+        "watch_later"
+      when "queued"
+        "cached"
+      when "stopped"
+        if @props.status then "done" else "bug_report"
+
+  render: ->
+    return (
+      <i className='material-icons'>{@iconClass()}</i>
+    )
+
+@BuildInfo = React.createClass
+  
+  componentDidMount: ->
+    $(ReactDOM.findDOMNode(this))
+    .find("abbr.timeago").timeago();
+
+  render: ->
+    return (
+      <div className="mdl-card__supporting-text">
+        <div className="mdl-grid">
+          <div className="mdl-cell mdl-cell--9-col">
+            { if @props.build
+              <strong>
+                <StatusIcon 
+                  status={@props.build.status}
+                  build_status={@props.build.build_status}
+                />
+                { @props.build.branch }
+              </strong>
+            }
+
+            { if @props.build && @props.build.commit
+              <CommitInfo 
+                repo={@props.repo} 
+                build={@props.build}
+              />
+            } 
+          </div>
+          
+          <div className="mdl-cell mdl-cell--3-col">
+            { if @props.build && @props.build.commit
+              <strong>
+                <abbr 
+                  className="timeago" 
+                  title={ @props.build.commit.commit.author.date }>
+                </abbr>
+              </strong>
+            }
+
+            <div className="stats">
+
+              <RepoStatus 
+                build={@props.build} 
+                repo={@props.repo}
+                ping={@props.ping}
+              />
+
+              <hr/>
+
+              { if @props.build && @props.build.build_status == "stopped"
+                
+                <p>
+                  <i className="material-icons">date_range</i>
+
+                  <abbr className="timeago" title={ @props.build.build_time } >
+                    { @props.build.build_time }
+                  </abbr>
+
+                  <br/>
+                  <i className="material-icons">schedule</i>
+                  <strong>duration:</strong>
+                  { @props.build.duration }
+                </p>
+
+              }
+
+            </div>
+
+          </div> 
+        </div> 
+      </div>
+    )
+
+@RepoStatus = React.createClass
+
+  getInitialState: ->
+    message: {
+      repo: {}
+      status: ""
+    }
+
+  currentBuild: ->
+    if @props.build
+      "build - ##{@props.build.id}"
+
+  buildStarted: ->
+    if @props.build
+      switch @props.build.build_status
+        when "queued", "start", "started", "downloading"
+          true
+        else
+          false
+    else
+      false
+
+  addCommit: (ev)->
+    ev.preventDefault()
+    url = "/repos/#{@props.repo.name}/builds/#{@props.build.id}/replay.json"
+
+    $.ajax 
+      url: url 
+      success: (data)=>
+        @props.ping()
+      error: (err)->
+        alert("error adding commit!")
+
+  buildClass: ->
+    if @props.build then "build-#{@props.build.id}" else ""
+
+  repoClass: ->
+    if @props.repo then "repo-#{@props.repo.id}-#{@buildClass()}" else ""
+
+  render: ->
+    <div>
+
+      {if @props.build
+        <p>
+          <strong> 
+            <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}">
+              {@currentBuild()}
+            </a>
+          </strong>
+        </p>
+      }
+
+      <p id="#{@repoClass()}" 
+        className="repo-#{@props.repo.id} #{'hidden' if @buildStarted() }">
+        {@state.status}
+      </p>
+
+      <div className="#{@buildClass()} mdl-spinner mdl-js-spinner is-active #{'hidden' if !@buildStarted()}">
+      </div>
+
+      <p className="#{'hidden' if @buildStarted() }">
+        <a onClick={@addCommit} href="#"
+          className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Replay build
+        </a>
+      </p>
+    
+    </div>
+
+@CommitInfo = React.createClass
+
+  commitUrl: ->
+    "#{@props.repo.github_data.html_url}/commit/#{@props.build.sha}"
+
+  githubIcon: ->
+    "<%= image_path('github.svg')%>"
+
+  gravatarUrl: (size=25)->
+    gravatar_id = MD5(@props.build.commit.commit.author.email)
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
+
+  render: ->
+    return (
+      <div>
+        
+        <p>            
+          { @props.build.commit.commit.message }  
+        </p>
+
+        <p>
+          <a 
+            href="https://github.com/#{@props.build.commit.commit.author.name}" 
+            className="circle">
+            <img src={@gravatarUrl()}/>              
+          </a>
+
+          { @props.build.commit.commit.author.name }
+          <span> authored and committed </span>
+        </p>
+
+        <hr/>
+
+        <p>
+          <a href={@commitUrl()} target="blank">
+            <img src={@githubIcon()} width="25"/>
+            { "commit ... #{ @props.build.sha }" }
+          </a>             
+        </p>
+
+      </div>
+
+    )
