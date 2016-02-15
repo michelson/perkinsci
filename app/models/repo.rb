@@ -116,8 +116,8 @@ class Repo < ActiveRecord::Base
   end
 
   def hook_url
-    u = ENV['endpoint']
-    p = ENV['port'] == "80" ? nil : ENV['port']
+    u = ENV['ENDPOINT']
+    p = ENV['PORT'] == "80" ? nil : ENV['PORT']
     host = [u, p].compact.join(":")
     url = "#{host}/repos/receiver.json"
   end
