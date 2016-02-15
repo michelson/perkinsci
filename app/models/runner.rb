@@ -52,9 +52,6 @@ class Runner
     r.each_line{|l| 
       puts l.yellow
       output << l
-      #puts "CURRENT DIR: #{Dir.pwd} !!!!!"
-      #puts "CURRENT GIT DIR: #{repo.git.dir.path} !!!!!"
-      #puts "#{repo.download_name} !!!!!!!"
       #updates each time, this should trigger event to interface to refresh
       @current_report.update_column(:response, output.join(""))
     } 

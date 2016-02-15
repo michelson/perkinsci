@@ -114,6 +114,16 @@
 
     )
 
+@ShowRepo = React.createClass
+
+  render: ->
+    return (
+      <div>
+        <RepoFetcher url="/repos/#{@props.name}" />
+        <BuildsCollection url="/repos/#{@props.name}/builds" />
+      </div>
+    )
+
 @RepoCard = React.createClass
 
   githubIcon: ->
@@ -174,8 +184,8 @@
       <div className="mdl-card__title">
         
         <h2 className="mdl-card__title-text">
-          { @repoName() }
-          
+          {@repoName()}
+
           <span className="repo-gh">
             <a href="https://github.com/#{@repoName()}" 
             title={@repoName()} 
@@ -214,6 +224,8 @@
     switch @props.build_status
       when "pending", "started"
         "yellow"
+      when "queued"
+        "black"
       when "stopped"
         if @props.status then "green" else "red"
       else
@@ -232,9 +244,9 @@
 
   iconClass: ->
     switch @props.build_status
-      when "pending"
+      when "queued", "started"
         "watch_later"
-      when "started"
+      when "queued"
         "cached"
       when "stopped"
         if @props.status then "done" else "bug_report"
@@ -325,24 +337,30 @@
       status: ""
     }
 
+  currentBuild: ->
+    if @props.build
+      "build - ##{@props.build.id}"
+
   buildStarted: ->
     if @props.build
       switch @props.build.build_status
-        when "start", "started", "downloading"
+        when "queued", "start", "started", "downloading"
           true
         else
           false
     else
       false
 
-
   addCommit: (ev)->
     ev.preventDefault()
     url = "/repos/#{@props.repo.name}/builds/#{@props.build.id}/replay.json"
-    $.get url, (result) =>
-      console.log("acaccs")
-      @props.ping()
-      return
+
+    $.ajax 
+      url: url 
+      success: (data)=>
+        @props.ping()
+      error: (err)->
+        alert("error adding commit!")
 
   buildClass: ->
     if @props.build then "build-#{@props.build.id}" else ""
@@ -352,22 +370,32 @@
 
   render: ->
     <div>
-      { if @props.repo 
-        <p id="#{@repoClass()}" 
-          className="repo-#{@props.repo.id} #{'hidden' if @buildStarted() }">
-          {@state.status}
-        </p>
 
-        <div className="#{@buildClass()} mdl-spinner mdl-js-spinner is-active #{'hidden' if !@buildStarted()}">
-        </div>
-
-        <p className="#{'hidden' if @buildStarted() }">
-          <a onClick={@addCommit} href="#"
-            className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-            Replay build
-          </a>
+      {if @props.build
+        <p>
+          <strong> 
+            <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}">
+              {@currentBuild()}
+            </a>
+          </strong>
         </p>
       }
+
+      <p id="#{@repoClass()}" 
+        className="repo-#{@props.repo.id} #{'hidden' if @buildStarted() }">
+        {@state.status}
+      </p>
+
+      <div className="#{@buildClass()} mdl-spinner mdl-js-spinner is-active #{'hidden' if !@buildStarted()}">
+      </div>
+
+      <p className="#{'hidden' if @buildStarted() }">
+        <a onClick={@addCommit} href="#"
+          className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Replay build
+        </a>
+      </p>
+    
     </div>
 
 @CommitInfo = React.createClass

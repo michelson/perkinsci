@@ -14,7 +14,7 @@ class BuildsController < ApplicationController
     find_repo
     @build = @repo.build_reports.find(params[:id])
     if @repo.add_commit(@build.sha, @build.branch)
-      render json: "ok"
+      render json: {status: "ok"}
     end
     #redirect_to "/repos/#{@repo.name}" , notice: "Re enqueued build"  
   end

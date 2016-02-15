@@ -8,6 +8,11 @@ $nprogress-zindex: 10100;
 
 @import 'nprogress';
 
+
+.mdl-spinner:not(.is-upgraded).is-active:after{
+  content: "";
+}
+
 .mdl-data-table th {
   text-align: left !important;
 }
