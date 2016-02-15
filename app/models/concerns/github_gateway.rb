@@ -6,7 +6,7 @@ module Concerns
       puts "check travis.yml in: #{self.name}".yellow
 
       begin
-        opts = { :path => '.travis.yml', :ref => sha })
+        opts = { :path => '.travis.yml', :ref => sha }
         content = $github_client.contents(self.name, opts)
       rescue
         return Travis::Yaml.new
