@@ -157,8 +157,8 @@ module Perkins
       end
 
       def template(filename)
-        @working_dir = @repo.working_dir + @repo.download_name
-        #puts "REPO REPO #{@working_dir}"
+        @working_dir = [@repo.working_dir, @repo.download_name].join("/")
+        puts "Build template with working dir: #{@working_dir}".green
         ERB.new(File.read(File.expand_path(filename, TEMPLATES_PATH))).result(binding)
       end
 
