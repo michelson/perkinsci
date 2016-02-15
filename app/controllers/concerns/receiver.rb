@@ -2,7 +2,7 @@ module Concerns
   module Receiver
     include ActiveSupport::Concern
 
-    GITHUB_EVENTS_WHITELIST = %w( pull_request push )
+    GITHUB_EVENTS_WHITELIST = %w( push )
 
     def receiver
       check_github_event!

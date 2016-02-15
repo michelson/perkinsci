@@ -83,7 +83,7 @@ class Repo < ActiveRecord::Base
           self.name,
           'web',
           { :url => url, :content_type => 'json'},
-          { :events => ['push', 'pull_request'], 
+          { :events => ['push'], 
             :active => true}
         )
         self.update_attribute(:hook_id, res[:id]) if res[:id].present?
