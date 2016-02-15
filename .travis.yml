@@ -1,0 +1,13 @@
+
+language: ruby
+
+bundler_args: --without production development
+
+before_script:
+  - export RAILS_ENV=test
+  - bundle exec rake db:schema:load
+
+script: bundle exec rspec
+
+rvm:
+  - 2.2.0
