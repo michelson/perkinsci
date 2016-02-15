@@ -3,6 +3,7 @@ class ReposController < ApplicationController
   include Concerns::Receiver
 
   before_action :authenticate_user!, except: :receiver
+  protect_from_forgery :only => :receiver
 
   def index
     @repos = Repo.added.all

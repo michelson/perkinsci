@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ReposController, type: :controller do
 
+  #include Rack::Test::Methods
+
   let(:repo){
     create(:repo, cached: false)
   }
@@ -16,17 +18,21 @@ RSpec.describe ReposController, type: :controller do
     }
 
     def hook_receiver(params)
-      post :receiver, params.to_json, {'Content-Type' => 'application/json'}
+      post :receiver, params.to_json
     end
 
     it "pull request will receive add_commit once" do
       repo
       expect_any_instance_of(Repo).to receive(:add_commit).once
+      controller.request.headers['X-GitHub-Event'] = 'pull_request'
+      @request.set_header 'Content_Type', 'application/json'
       hook_receiver(pull_request)
     end
 
-    it "push request will receive add_commit once" do
+    it "push will receive add_commit once" do
       repo
+      controller.request.headers['X-GitHub-Event'] = 'push'
+      @request.set_header 'Content_Type', 'application/json'
       expect_any_instance_of(Repo).to receive(:add_commit).once
       hook_receiver(push)
     end
