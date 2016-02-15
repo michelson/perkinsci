@@ -1,5 +1,7 @@
 class ProfileController < ApplicationController
 
+  before_action :authenticate_user!
+
   def index
     @github_repos = github_user.repositories(github_user.user.login)
     @github_orgs = github_user.orgs

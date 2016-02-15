@@ -2,6 +2,8 @@ class ReposController < ApplicationController
 
   include Concerns::Receiver
 
+  before_action :authenticate_user!, except: :receiver
+
   def index
     @repos = Repo.added.all
   end

@@ -1,5 +1,7 @@
 class BuildsController < ApplicationController
 
+  before_action :authenticate_user!
+
   def show
     find_repo
     @build = @repo.build_reports.find(params[:id])
