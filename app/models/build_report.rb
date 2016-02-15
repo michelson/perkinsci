@@ -28,7 +28,7 @@ class BuildReport < ActiveRecord::Base
 
   def notify_start_job
     self.repo.send_sse(status: "start", report: self )
-    #@repo.update_column(:build_status, "started")
+    # @repo.update_column(:build_status, "started")
     self.build_status_report(self.sha, "pending")
   end
 
@@ -62,7 +62,7 @@ class BuildReport < ActiveRecord::Base
   end
 
   def send_github_status(sha)
-    #self.repo.git
+    # self.repo.git
     self.build_status_report(sha, github_state)
   end
 

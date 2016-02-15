@@ -13,20 +13,10 @@ class Runner
     elsif result.last.chomp.include?("with 1")
       @status = false
     else
-      puts "status result not found!!"
+      puts "status result not found!!".red
       @status = false
     end
-        
-    #puts result
-    #process_status = $?
-    #if successful_command?(process_status) || config_command_with_empty_value?(result,process_status)
-    #  @response = result
-    #  @status = true
-    #  return result
-    #else
-    #  @response = result
-    #  @status = false
-    #end
+
   end
 
   def run_script(source)
@@ -38,7 +28,7 @@ class Runner
     FileUtils.chmod(0755, script)
     Bundler.with_clean_env{
       pipe_command("#{script} 2>&1")
-      #`bash #{script} 2>&1`.chomp
+      # `bash #{script} 2>&1`.chomp
     }
   end
 
@@ -52,10 +42,10 @@ class Runner
     r.each_line{|l| 
       puts l.yellow
       output << l
-      #updates each time, this should trigger event to interface to refresh
+      # updates each time, this should trigger event to interface to refresh
       @current_report.update_column(:response, output.join(""))
     } 
-    #Process.waitpid(p1) #this is to get the $ exitstatus
+    # Process.waitpid(p1) #this is to get the $ exitstatus
     output
   end
 
@@ -80,7 +70,7 @@ class Runner
         self.exec(script.compile)
       end
     end
-    #store_report
+    # store_report
     stop_build
   end
 
@@ -111,10 +101,6 @@ class Runner
     @running
   end
 
-  def successful_command?(process_status)
-    process_status.exitstatus.to_i == 0
-  end
-
   def config_command_with_empty_value?(result, process_status)
     process_status.exitstatus.to_i == 1 && result.empty?
   end
@@ -127,7 +113,7 @@ class Runner
   def git_update(branch)
     puts "fetch repo & reset to ref #{sha}".green
     
-    # TODO better gateway for this, maybe multi service, or muti strategy (git repo, github, gitlab, bitbucket) ?
+    # TODO better gateway for this, maybe multi service, or muti strategy (git, github, gitlab, bitbucket) ?
     
     archive = $github_client.archive_link(repo.name, ref: sha)
     system("mkdir -p #{repo.local_path}")
@@ -140,8 +126,8 @@ class Runner
     # puts repo.git.reset_hard(sha).green
   end
 
-  #TODO: add a serialized commit in order to avoid
-  #Perkins::Commit initialization in every instantiation
+  # TODO: add a serialized commit in order to avoid
+  # Perkins::Commit initialization in every instantiation
   def to_report
     {
       build_time: self.build_time,
