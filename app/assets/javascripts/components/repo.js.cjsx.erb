@@ -425,8 +425,12 @@
             <img src={@gravatarUrl()}/>              
           </a>
 
-          <span className="ml1">{ @props.build.commit.commit.author.name }</span>
-          <span>authored and committed </span>
+          <span className="ml1">
+            <strong>
+              { @props.build.commit.commit.author.name }
+            </strong>
+          </span>
+          <span> authored and committed </span>
         </p>
 
         <hr/>
