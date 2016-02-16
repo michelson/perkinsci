@@ -46,6 +46,11 @@ $nprogress-zindex: 10100;
   margin-top: 4px;
 }
 
+.mdl-data-table__cell--non-numeric{
+  white-space: normal;
+  line-height: 1.2;  
+}
+
 header.black{
   background-color: rgb(66,66,66);
 }
