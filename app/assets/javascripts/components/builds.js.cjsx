@@ -30,6 +30,7 @@
             <th>Commit</th>
             <th>Duration</th>
             <th>Finished At</th>
+            <th>Actions</th>
           </tr>
 
         </thead>
@@ -58,6 +59,9 @@
   buildUrl: ->
     "/repos/#{@props.repo.name}/builds/#{@props.build.id}"
 
+  buildStatusLabel: ->
+    "##{@props.build.id} - #{@props.build.build_status}"
+
   render: ->
 
     return (
@@ -73,8 +77,7 @@
         </td>
 
         <td className="mdl-data-table__cell--non-numeric">
-          #{@props.build.id}
-          { @props.build.build_status  }
+          {@buildStatusLabel()}
         </td>
 
         <td className="mdl-data-table__cell--non-numeric">
@@ -101,6 +104,15 @@
           <abbr className="timeago" title={ @props.build.build_time } >
             { @props.build.build_time }
           </abbr>
+        </td>
+
+        <td className="mdl-data-table__cell--non-numeric">
+          <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}" 
+            data-method="delete" 
+            data-confirm="are you sure?"
+            rel="nofollow">
+            delete
+          </a>
         </td>
         
       </tr>

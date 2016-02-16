@@ -302,7 +302,6 @@
                 repo={@props.repo}
                 ping={@props.ping}
               />
-
               <hr/>
 
               { if @props.build && @props.build.build_status == "stopped"
@@ -370,31 +369,32 @@
 
   render: ->
     <div>
-
       {if @props.build
-        <p>
-          <strong> 
-            <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}">
-              {@currentBuild()}
+        <div>
+          <p>
+            <strong> 
+              <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}">
+                {@currentBuild()}
+              </a>
+            </strong>
+          </p>
+        
+          <p id="#{@repoClass()}" 
+            className="repo-#{@props.repo.id} #{'hidden' if @buildStarted() }">
+            {@state.status}
+          </p>
+
+          <div className="#{@buildClass()} mdl-spinner mdl-js-spinner is-active #{'hidden' if !@buildStarted()}">
+          </div>
+
+          <p className="#{'hidden' if @buildStarted() }">
+            <a onClick={@addCommit} href="#"
+              className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+              Replay build
             </a>
-          </strong>
-        </p>
+          </p>
+        </div>
       }
-
-      <p id="#{@repoClass()}" 
-        className="repo-#{@props.repo.id} #{'hidden' if @buildStarted() }">
-        {@state.status}
-      </p>
-
-      <div className="#{@buildClass()} mdl-spinner mdl-js-spinner is-active #{'hidden' if !@buildStarted()}">
-      </div>
-
-      <p className="#{'hidden' if @buildStarted() }">
-        <a onClick={@addCommit} href="#"
-          className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-          Replay build
-        </a>
-      </p>
     
     </div>
 
@@ -420,13 +420,13 @@
 
         <p>
           <a 
-            href="https://github.com/#{@props.build.commit.commit.author.name}" 
+            href="https://github.com/#{@props.build.commit.author.login}" 
             className="circle">
             <img src={@gravatarUrl()}/>              
           </a>
 
-          { @props.build.commit.commit.author.name }
-          <span> authored and committed </span>
+          <span className="ml1">{ @props.build.commit.commit.author.name }</span>
+          <span>authored and committed </span>
         </p>
 
         <hr/>
@@ -434,7 +434,7 @@
         <p>
           <a href={@commitUrl()} target="blank">
             <img src={@githubIcon()} width="25"/>
-            { "commit ... #{ @props.build.sha }" }
+            <span className="ml1">{ "commit ... #{ @props.build.sha[0..7] }" }</span>
           </a>             
         </p>
 

@@ -29,7 +29,8 @@ module Concerns
     def receive_push
       # return {} if @payload["ref"].blank? or @payload["after"].blank?
       pushed_branch = @payload["ref"].split('/').last
-      @repo.add_commit(@payload["after"], pushed_branch)
+      # will skip if head commit is blank!
+      @repo.add_commit(@payload["after"], pushed_branch) unless @payload["head_commit"].blank?
       puts "received push on repo: #{@payload_id}".green
     end
 

@@ -8,7 +8,9 @@ $nprogress-zindex: 10100;
 
 @import 'nprogress';
 
-
+.ml1{
+  margin-left: 5px;
+}
 .mdl-spinner:not(.is-upgraded).is-active:after{
   content: "";
 }

@@ -17,8 +17,15 @@ Rails.application.routes.draw do
 
   resources :profile, controller: :profile
 
-  post "/repos/receiver" => "repos#receiver"
-  get "/repos/side" => "repos#side"
+  resources :repos do 
+    collection do 
+      post :receiver
+      get :side
+    end
+  end
+
+  #post "/repos/receiver" => "repos#receiver"
+  #get "/repos/side" => "repos#side"
 
   get "/repos/add/:id" => "repos#add"
   get "/repos/:name/:repo" => "repos#show"
@@ -27,6 +34,7 @@ Rails.application.routes.draw do
 
   get "/repos/:name/:repo/builds" => "builds#index"
   get "/repos/:name/:repo/builds/:id" => "builds#show"
+  delete "/repos/:name/:repo/builds/:id" => "builds#delete"
   get "/repos/:name/:repo/builds/:id/replay" => "builds#replay"
 
   get "/me" => "home#me"

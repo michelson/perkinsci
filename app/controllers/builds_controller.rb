@@ -21,6 +21,14 @@ class BuildsController < ApplicationController
     #redirect_to "/repos/#{@repo.name}" , notice: "Re enqueued build"  
   end
 
+  def delete
+    if find_repo.build_reports.find(params[:id]).delete
+      redirect_to "/repos/#{@repos.name}", notice: "build deleted ok"
+    else
+      redirect_to "/repos/#{@repos.name}", notice: "error deleting build"
+    end
+  end
+
 private
   def find_repo
     @repo = Repo.find_by(name: "#{params[:name]}/#{params[:repo]}")
