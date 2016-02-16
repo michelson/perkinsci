@@ -21,12 +21,11 @@ RSpec.describe ReposController, type: :controller do
       post :receiver, params.to_json
     end
 
-    it "pull request will receive add_commit once" do
+    it "pull request will raise exception" do
       repo
-      expect_any_instance_of(Repo).to receive(:add_commit).once
       controller.request.headers['X-GitHub-Event'] = 'pull_request'
       @request.set_header 'Content_Type', 'application/json'
-      hook_receiver(pull_request)
+      expect{hook_receiver(pull_request)}.to raise_error
     end
 
     it "push will receive add_commit once" do
