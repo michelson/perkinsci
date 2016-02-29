@@ -89,10 +89,6 @@ class BuildReport < ActiveRecord::Base
 
     response[:config] = self.repo.check_config_existence(sha)
 
-    # override config rvm in order to use a string version instead of array
-    # split in two or more jobs
-    response[:config][:rvm] = response[:config][:rvm].last if response[:config][:rvm].is_a?(Array)
-
     response[:timeouts] = {}
 
     response[:env_vars] = [
