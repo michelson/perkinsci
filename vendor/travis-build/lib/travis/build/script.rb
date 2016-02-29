@@ -103,13 +103,13 @@ module Travis
         end
 
         def configure
-          apply :show_system_info
-          apply :fix_resolv_conf
-          apply :fix_etc_hosts
-          apply :fix_etc_mavenrc
-          apply :put_localhost_first
-          apply :home_paths
-          apply :disable_ssh_roaming
+          # apply :show_system_info
+          # apply :fix_resolv_conf
+          # apply :fix_etc_hosts
+          # apply :fix_etc_mavenrc
+          # apply :put_localhost_first
+          # apply :home_paths
+          # apply :disable_ssh_roaming
         end
 
         def checkout

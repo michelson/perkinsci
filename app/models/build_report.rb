@@ -88,6 +88,7 @@ class BuildReport < ActiveRecord::Base
                       }
 
     response[:config] = self.repo.check_config_existence(sha)
+    response[:config][:gemfile] = "Gemfile" unless response[:config][:gemfile].present?
 
     response[:timeouts] = {}
 

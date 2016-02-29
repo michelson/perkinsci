@@ -10,7 +10,6 @@ module Travis
 
         def setup
           super
-
           sh.if gemfile? do
             sh.export 'BUNDLE_GEMFILE', "$PWD/#{config[:gemfile]}"
           end
