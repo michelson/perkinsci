@@ -50,6 +50,7 @@ class Runner
   end
 
   def run(sha)
+    binding.pry
     self.sha = sha
     start_build
     self.repo.virtual_sha = "-#{@current_report.id}-#{self.sha}"
@@ -61,13 +62,15 @@ class Runner
     git_update(sha)
     
     # check travis yml
+    # TODO: yaml should build matrix build!
     config = repo.check_config_existence(sha)
-    # build script
-    script = Perkins::Build::script(config, repo)
+    # build sh script
+    script = Travis::Build::script(report.as_job)
+    # Perkins::Build::script(config, repo)
     repo.chdir do
       set_build_stats do
         puts "perform build".green
-        self.exec(script.compile)
+        self.exec(script.compile) rescue stop_build
       end
     end
     # store_report
@@ -82,6 +85,7 @@ class Runner
 
   def stop_build
     @running = false
+    binding.pry
     @current_report.update_attributes(self.to_report)
     @current_report.stop!
   end

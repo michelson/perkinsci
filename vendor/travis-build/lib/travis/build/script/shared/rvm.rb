@@ -16,7 +16,11 @@ module Travis
 
         def export
           super
-          sh.export 'TRAVIS_RUBY_VERSION', config[:rvm], echo: false if rvm?
+          sh.export 'TRAVIS_RUBY_VERSION', determine_ruby_version, echo: false if rvm?
+        end
+
+        def determine_ruby_version
+          config[:rvm].is_a?(Array) ? config[:rvm].first : config[:rvm]
         end
 
         def setup

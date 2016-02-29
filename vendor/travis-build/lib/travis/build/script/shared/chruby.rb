@@ -19,7 +19,8 @@ module Travis
         private
 
           def chruby?
-            !!config[:ruby]
+            false
+            #!!config[:ruby]
           end
 
           def setup_chruby

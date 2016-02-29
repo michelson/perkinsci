@@ -13,9 +13,11 @@ module Concerns
       end
 
       decoded = Base64.decode64(content[:content])
-      config = Travis::Yaml.parse(decoded)
+      # config = Travis::Yaml.parse(decoded)
+      # support for matrix is comming soon
+      config = Travis::Yaml.matrix(decoded)
 
-      config
+      config.last
     end
 
     # TODO: move this logic outside

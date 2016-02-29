@@ -48,7 +48,8 @@ module Travis
 
       class << self
         def defaults
-          Git::DEFAULTS.merge(self::DEFAULTS)
+          self::DEFAULTS
+          #Git::DEFAULTS.merge(self::DEFAULTS)
         end
       end
 

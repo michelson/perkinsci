@@ -13,7 +13,7 @@ module Travis
       def generate(ignore_taint = false)
         lines = Array(handle(nodes)).flatten
         script = lines.join("\n").strip
-        raise TaintedOutput if !ignore_taint && script.tainted?
+        # raise TaintedOutput if !ignore_taint && script.tainted?
         script = unindent(script)
         script = normalize_newlines(script)
         script

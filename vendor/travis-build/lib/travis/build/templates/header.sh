@@ -206,6 +206,10 @@ if [[ -f /etc/apt/sources.list.d/rabbitmq-source.list ]] ; then
   sudo rm -f /etc/apt/sources.list.d/rabbitmq-source.list
 fi
 
-mkdir -p <%= build_dir %>
-cd       <%= build_dir %>
+echo "This is it:"
+echo <%= build_dir %>
+echo "This is pwd:"
+pwd
+#mkdir -p <%= build_dir %>
+#cd       <%= build_dir %>
 
