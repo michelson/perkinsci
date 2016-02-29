@@ -50,7 +50,6 @@ class Runner
   end
 
   def run(sha)
-    binding.pry
     self.sha = sha
     start_build
     self.repo.virtual_sha = "-#{@current_report.id}-#{self.sha}"
@@ -70,11 +69,17 @@ class Runner
     repo.chdir do
       set_build_stats do
         puts "perform build".green
-        self.exec(script.compile) rescue stop_build
+        begin
+          self.exec(script.compile) 
+        rescue => ex
+          puts "Error during processing: #{$!}".red
+          puts "Backtrace:\n\t#{ex.backtrace.join("\n\t")}".red
+          stop_build
+        end
       end
     end
     # store_report
-    stop_build
+    stop_build unless @current_report.stopped?
   end
 
   def start_build
@@ -85,7 +90,6 @@ class Runner
 
   def stop_build
     @running = false
-    binding.pry
     @current_report.update_attributes(self.to_report)
     @current_report.stop!
   end
