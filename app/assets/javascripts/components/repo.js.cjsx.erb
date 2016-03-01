@@ -40,15 +40,29 @@
       repo: {}
 
   ping: ->
-    console.log("request ping!")
-
     @fetchRepo()
+
+  fetchBuild: ->
+    $.get "#{@props.url}/builds/#{@props.build_id}.json", ((result) ->
+      if @isMounted()
+        @setState
+          resource:
+            build: result.resource.build
+            repo: @state.resource.repo
+      return
+    ).bind(this)
 
   fetchRepo: ->
     $.get "#{@props.url}.json", ((result) ->
       if @isMounted()
         @setState
-          resource: result.resource
+          resource:
+            repo: result.resource.repo
+            build: result.resource.build
+
+        # will fetch or not depending is on build page or repo show page
+        @fetchBuild() if @props.build_id
+
       return
     ).bind(this)
 
