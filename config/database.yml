@@ -14,7 +14,7 @@ development:
   database: perkinsci
   username: root
   password: 
-  host: localhost
+  host: 192.168.99.100
   pool: 22
 
 # Warning: The database defined as "test" will be erased and
