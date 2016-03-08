@@ -45,6 +45,27 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'kaminari'
 gem 'aasm'
 
+
+###############################################
+### TRAVIS-BUILD
+
+gem 'travis-build', path: "vendor/travis-build"
+
+# gem 'activesupport', '~> 4.0'
+gem 'addressable', '~> 2.3'
+gem 'coder'
+# gem 'jemalloc'
+gem 'metriks', '0.9.9.6'
+gem 'metriks-librato_metrics', github: 'eric/metriks-librato_metrics'
+# gem 'puma'
+# gem 'rack-ssl', '~> 1.4'
+gem 'sentry-raven'
+# gem 'sinatra', '~> 1.4'
+gem 'travis-support', github: 'travis-ci/travis-support'
+
+#################################################
+
+
 gem 'travis-yaml'
 gem 'sinatra', github: "sinatra/sinatra"
 gem 'colorize'
@@ -81,6 +102,6 @@ group :development do
   gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  # gem 'spring'
 end
 
