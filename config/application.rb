@@ -33,5 +33,7 @@ module Perkinsci
       g.test_framework :rspec
     end
 
+    config.web_console.whitelisted_ips = '192.168.99.1'
+
   end
 end
