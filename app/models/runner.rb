@@ -40,7 +40,7 @@ class Runner
     end
     io.close
     r.each_line{|l| 
-      puts l.yellow
+      # puts l.yellow
       output << l
       # updates each time, this should trigger event to interface to refresh
       @current_report.update_column(:response, output.join(""))
