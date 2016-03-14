@@ -5,7 +5,7 @@ class CreateBuildReports < ActiveRecord::Migration[5.0]
       t.string :branch
       t.string :build_time
       t.string :duration
-      t.text :response
+      t.text :response, :limit => 4294967295
       t.boolean :status
       t.references :repo, foreign_key: true
       t.string :build_status

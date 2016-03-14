@@ -23,7 +23,7 @@ describe Runner do
 
 
   context "in repo" do
-    let( :repo ){ Repo.find_by(name: test_repo[:full_name]) }
+    let( :repo ){ Repo.find_by(name: "michelson/lazy_high_charts") }
     before :each do
       @runner = Runner.new
       @runner.config = file
@@ -70,7 +70,8 @@ describe Runner do
 
     it "should install bundler" do
       expect_any_instance_of(Octokit::Client).to receive(:create_status).at_most(2).times.and_return(true)
-      expect{@runner.run("master")}.to_not raise_error
+      # expect{@runner.run("master")}.to_not raise_error
+      @runner.run("master")
       expect(@runner.duration).to be > 0
       expect(@runner).to_not be_running
     end
@@ -120,19 +121,6 @@ describe Runner do
 
     it "retrieve_commit_info" do 
       @report.retrieve_commit_info
-    end
-  end
-
-  context "script compilation" do 
-
-    let( :repo ){ Repo.find_by(name: "michelson/godard") }
-
-    it "check multiple commands" do 
-      allow_any_instance_of(Repo).to receive(:check_config_existence).and_return(file)
-      # allow_any_instance_of(Repo).to receive(:has_config_yml?).and_return(true)
-      config = Repo.first.check_config_existence
-      repo   = Repo.first
-      script = Perkins::Build::script(config, repo).compile
     end
   end
 

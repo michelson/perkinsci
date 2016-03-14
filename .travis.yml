@@ -11,4 +11,4 @@ before_script:
 script: bundle exec rspec
 
 rvm:
-  - 2.2.0
+  - 2.2.2

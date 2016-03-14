@@ -11,7 +11,7 @@ set :repo_url, 'git@github.com:michelson/perkinsci.git'
 set :user, "deploy"
 
 set :rvm_type, :user                     # Defaults to: :auto
-set :rvm_ruby_version, '2.2.2'      # Defaults to: 'default'
+set :rvm_ruby_version, '2.3.0'      # Defaults to: 'default'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

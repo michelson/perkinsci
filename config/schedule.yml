@@ -1,0 +1,6 @@
+#config/schedule.yml
+
+job_queuer:
+  cron: "*/5 * * * *"
+  class: "JobQueuer"
+  queue: default

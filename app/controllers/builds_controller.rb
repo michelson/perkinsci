@@ -23,9 +23,9 @@ class BuildsController < ApplicationController
 
   def delete
     if find_repo.build_reports.find(params[:id]).delete
-      redirect_to "/repos/#{@repos.name}", notice: "build deleted ok"
+      redirect_to "/repos/#{@repo.name}", notice: "build deleted ok"
     else
-      redirect_to "/repos/#{@repos.name}", notice: "error deleting build"
+      redirect_to "/repos/#{@repo.name}", notice: "error deleting build"
     end
   end
 

@@ -1,4 +1,4 @@
-<%= react_component "RepoFetcher", url: "/repos/#{@repo.name}" %>
+<%= react_component "RepoFetcher", url: "/repos/#{@repo.name}", build_id: @build.id %>
 
 <%= react_component "BuildLog", url: "/repos/#{@repo.name}/builds/#{@build.id}" %>
 

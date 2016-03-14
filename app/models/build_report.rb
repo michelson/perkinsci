@@ -66,6 +66,39 @@ class BuildReport < ActiveRecord::Base
     self.build_status_report(sha, github_state)
   end
 
+  def as_job
+    response = {}
+
+    response[:repository] = {
+      slug: self.repo.name, 
+      source_url: self.repo.github_data[:clone_url]
+    }
+
+    response[:source] = { 
+      source: { id: self.id, number: 1}
+    }
+
+    response[:job] =  {
+                        id: self.id,
+                        number: '1.1',
+                        branch: 'master',
+                        commit: self.sha,
+                        commit_range: nil,
+                        pull_request: false
+                      }
+
+    response[:config] = self.repo.check_config_existence(sha)
+    response[:config][:gemfile] = "Gemfile" unless response[:config][:gemfile].present?
+
+    response[:timeouts] = {}
+
+    response[:env_vars] = [
+                            { name: 'FOO', value: 'foo' }
+                          ]
+
+    response
+  end
+
   def as_json(options = {})
     data = {}
 

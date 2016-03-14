@@ -40,7 +40,7 @@ class Runner
     end
     io.close
     r.each_line{|l| 
-      puts l.yellow
+      # puts l.yellow
       output << l
       # updates each time, this should trigger event to interface to refresh
       @current_report.update_column(:response, output.join(""))
@@ -61,17 +61,25 @@ class Runner
     git_update(sha)
     
     # check travis yml
+    # TODO: yaml should build matrix build!
     config = repo.check_config_existence(sha)
-    # build script
-    script = Perkins::Build::script(config, repo)
+    # build sh script
+    script = Travis::Build::script(report.as_job)
+    # Perkins::Build::script(config, repo)
     repo.chdir do
       set_build_stats do
         puts "perform build".green
-        self.exec(script.compile)
+        begin
+          self.exec(script.compile) 
+        rescue => ex
+          puts "Error during processing: #{$!}".red
+          puts "Backtrace:\n\t#{ex.backtrace.join("\n\t")}".red
+          stop_build
+        end
       end
     end
     # store_report
-    stop_build
+    stop_build unless @current_report.stopped?
   end
 
   def start_build
