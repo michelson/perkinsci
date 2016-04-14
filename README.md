@@ -22,6 +22,7 @@ The default webserver is puma. to configure it just run
 
 In production add the following env variables to your /etc/environment
 
+    export GITHUB_URL=https://github.com #use your own url for github enterprise
     export GITHUB_CLIENT_ID=xxx
     export GITHUB_SECRET=xxx
     export ACCESS_TOKEN=xxx
