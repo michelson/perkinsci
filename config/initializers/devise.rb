@@ -242,7 +242,12 @@ Devise.setup do |config|
   ENV['GITHUB_CLIENT_ID'], 
   ENV['GITHUB_SECRET'], 
   callback_url: "CALLBACK_URL",
-  scope: 'admin:repo_hook,repo,user:email'
+  scope: 'admin:repo_hook,repo,user:email',
+  :client_options => {
+    :site => "#{ENV['GITHUB_URL']}/api/v3",
+    :authorize_url => "#{ENV['GITHUB_URL']}/login/oauth/authorize",
+    :token_url => "#{ENV['GITHUB_URL']}/login/oauth/access_token",
+  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
