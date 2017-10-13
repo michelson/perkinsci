@@ -6,7 +6,7 @@
 
 ### Deploy
 
-The server will work with RVM with ruby 2.2.2
+The server will work with RVM with ruby 2.3.2
 
     cap production deploy:check
   
