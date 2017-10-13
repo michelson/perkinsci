@@ -133,8 +133,9 @@
           <a href="/repos/#{@props.repo.name}/builds/#{@props.build.id}" 
             data-method="delete" 
             data-confirm="are you sure?"
+            className="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored"
             rel="nofollow">
-            delete
+            <i className="material-icons">remove</i>
           </a>
         </td>
         

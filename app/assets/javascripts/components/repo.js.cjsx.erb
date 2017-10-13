@@ -80,12 +80,10 @@
     return (
 
       <section className="repo-#{@props.repo.id} section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp mini-card">
-        {if @props.build 
-          <BuildColor 
-            status={@props.build.status}
-            build_status={@props.build.build_status}
-          />
-        }
+        <BuildColor 
+          build={@props.build}
+        />
+        
         <div className="mdl-card mdl-cell mdl-cell--11-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
           <div className="mdl-card__supporting-text">
             <span className="title">
@@ -144,12 +142,9 @@
 
       <section className="repo-#{@props.repo.id} section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
 
-        {if @props.build
-          <BuildColor 
-            build_status={@props.build.build_status}
-            status={@props.build.status}
-          />
-        }
+        <BuildColor 
+          build={@props.build}
+        />        
 
         <div className="mdl-card mdl-cell mdl-cell--11-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
 
@@ -227,13 +222,15 @@
 @BuildColor = React.createClass
 
   buildColor: ->
-    switch @props.build_status
+    return "black" if !@props.build
+
+    switch @props.build.build_status
       when "pending", "started"
         "yellow"
       when "queued"
         "black"
       when "stopped"
-        if @props.status then "green" else "red"
+        if @props.build.status then "green" else "red"
       else
         "black"
 
