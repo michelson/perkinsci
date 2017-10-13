@@ -1,6 +1,8 @@
-# Perkins (rework!)
+# Perkins
 
 ### A travis compatible minimal CI solution built in ruby
+
+![image](https://user-images.githubusercontent.com/11976/31534785-cb319dc6-afce-11e7-83a2-5ab8a4709365.png)
 
 ### Deploy
 
