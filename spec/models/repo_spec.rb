@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-#require "fakeredis"
-
-#$redis = Redis.new
-
 describe "Repo" do
 
   let(:file){

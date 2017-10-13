@@ -10,6 +10,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     
     #token acá, mejor guardarlo
     session[:user_token] = request.env["omniauth.auth"]["credentials"]["token"]
+    @user.update_attributes(token: session[:user_token])
     
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated

@@ -5,9 +5,8 @@
 
   fetchRepos: ->
     $.get "#{@props.url}.json", ((result) ->
-      if @isMounted()
-        @setState
-          collection: result.collection
+      @setState
+        collection: result.collection
       return
     ).bind(this)
 
@@ -15,38 +14,48 @@
     @fetchRepos()
 
   render: ->
+    return (
+      <div>
+        {
+          if @state.collection.length > 0
+            <BuildTable collection={@state.collection}/>
+        }
+      </div>
+    )
 
+@BuildTable = React.createClass
+  render: ->
     return (
 
-      <table style={{"width:100%;"}} className="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        
-        <thead>
-          <tr>
-            <th className="mdl-data-table__cell--non-numeric">
-              Build
-            </th>
-            <th>Status</th>
-            <th>Message</th>
-            <th>Commit</th>
-            <th>Duration</th>
-            <th>Finished At</th>
-            <th>Actions</th>
-          </tr>
+        <table style={{width:'100%'}} className="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+          
+          <thead>
+            <tr>
+              <th className="mdl-data-table__cell--non-numeric">
+                Build
+              </th>
+              <th>Status</th>
+              <th>Message</th>
+              <th>Commit</th>
+              <th>Duration</th>
+              <th>Finished At</th>
+              <th>Actions</th>
+            </tr>
 
-        </thead>
+          </thead>
 
-        <tbody>
-          {
-            @state.collection.map (resource)->
-              <BuildRow 
-              key={resource.build.id} 
-              repo={resource.repo} 
-              build={resource.build}
-              />
-          }
-        </tbody>
+          <tbody>
+            {
+              @props.collection.map (resource)->
+                <BuildRow 
+                key={resource.build.id} 
+                repo={resource.repo} 
+                build={resource.build}
+                />
+            }
+          </tbody>
 
-      </table>
+        </table>
 
     )
 
@@ -132,9 +141,8 @@
 
   fetchRepos: ->
     $.get "#{@props.url}.json", ((result) ->
-      if @isMounted()
-        @setState
-          resource: result.resource
+      @setState
+        resource: result.resource
 
       @initLogView()
 

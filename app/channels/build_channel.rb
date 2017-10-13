@@ -9,7 +9,6 @@ class BuildChannel < ApplicationCable::Channel
   end
 
   def notify(data)
-    ActionCable.server.broadcast 'build_channel', 
-    options: data
+    ActionCable.server.broadcast 'build_channel', options: data
   end
 end

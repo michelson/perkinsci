@@ -8,9 +8,8 @@
   
   fetchRepos: ->
     $.get "#{@props.url}.json", ((result) ->
-      if @isMounted()
-        @setState
-          collection: result.collection
+      @setState
+        collection: result.collection
       return
     ).bind(this)
 
@@ -46,9 +45,8 @@
 
   fetchRepo: ->
     $.get "#{@props.url}.json", ((result) ->
-      if @isMounted()
-        @setState
-          resource: result.resource
+      @setState
+        resource: result.resource
       return
     ).bind(this)
 
@@ -161,8 +159,9 @@
           { if !@props.build
             <div className="mdl-card__actions mdl-card--border">
               <a href="/repos/#{@props.repo.name}/run_commit" 
-                className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                className="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
                 <img src="#{@githubIcon()}" width="25"/>
+                {" "}
                 Run last commit
               </a>
             </div>
@@ -307,15 +306,23 @@
               { if @props.build && @props.build.build_status == "stopped"
                 
                 <p>
-                  <i className="material-icons">date_range</i>
+                  <i className="material-icons">
+                    {" "}
+                    date_range
+                  </i>
 
                   <abbr className="timeago" title={ @props.build.build_time } >
                     { @props.build.build_time }
                   </abbr>
 
                   <br/>
-                  <i className="material-icons">schedule</i>
+                  <i className="material-icons">
+                    {" "}
+                    schedule
+                    
+                  </i>
                   <strong>duration:</strong>
+                  {" "}
                   { @props.build.duration }
                 </p>
 

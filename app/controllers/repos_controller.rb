@@ -15,7 +15,7 @@ class ReposController < ApplicationController
 
   def run_commit
     @repo = find_repo
-    sha = $github_client
+    sha = github_user
       .refs(@repo.name, "heads/master", per_page: 1)[:object][:sha]
     #sha = github_user.api.commits(repo.name).first[:sha]
     @repo.add_commit(sha, "master")

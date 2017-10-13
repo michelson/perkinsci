@@ -1,4 +1,4 @@
-@App.build = App.cable.subscriptions.create "BuildChannel",
+@App.build = App.cable.subscriptions.create {channel: "BuildChannel"},
   connected: ->
     console.log("Connected!")
     #$("p").trigger("refresh")
@@ -12,7 +12,6 @@
   received: (d) ->
     console.log("Received!")
     console.log(d)
-
     $(".repo-#{d.repo.id}").trigger("refresh", d);
 
     # Called when there's incoming data on the websocket for this channel
