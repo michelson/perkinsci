@@ -13,7 +13,8 @@
     console.log("Received!")
     console.log(d)
     $(".repo-#{d.repo.id}").trigger("refresh", d);
-
+    $("#build-#{d.message.report.id}").trigger("refresh", d);
+    $("#build-collection-repo-#{d.repo.id}").trigger("refresh", d);
     # Called when there's incoming data on the websocket for this channel
 
   notify: ->

@@ -68,11 +68,13 @@
     "<a href='#{url}'>#{label}</a>"
 
   componentDidMount: ->
-
     $(ReactDOM.findDOMNode(this)).on "refresh", (ev, data)=>
       if data.message && data.message.report 
         console.log("alert on mini card, it's alive!! #{@} #{data}")
         @props.ping()
+
+  componentWillUnmount: ->
+    $(ReactDOM.findDOMNode(this)).off "refresh"
 
   render: ->
     return (
@@ -118,7 +120,10 @@
     return (
       <div>
         <RepoFetcher url="/repos/#{@props.name}" />
-        <BuildsCollection url="/repos/#{@props.name}/builds" />
+        <BuildsCollection 
+          url="/repos/#{@props.name}/builds" 
+          repo_id={@props.repo_id} 
+        />
       </div>
     )
 
@@ -183,7 +188,9 @@
       <div className="mdl-card__title">
         
         <h2 className="mdl-card__title-text">
-          {@repoName()}
+          <a href="/repos/#{@repoName()}">
+            {@repoName()}
+          </a>
 
           <span className="repo-gh">
             <a href="https://github.com/#{@repoName()}" 

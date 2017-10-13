@@ -3,7 +3,7 @@
   getInitialState: ->
     collection: []
 
-  fetchRepos: ->
+  fetchBuilds: ->
     $.get "#{@props.url}.json", ((result) ->
       @setState
         collection: result.collection
@@ -11,14 +11,22 @@
     ).bind(this)
 
   componentDidMount: ->
-    @fetchRepos()
+    @fetchBuilds()
+
+    $(ReactDOM.findDOMNode(this)).on "refresh", (ev, data)=>
+      if data.message && data.message.report 
+        console.log("alert on build row, it's alive!! #{data}")
+        @fetchBuilds()
 
   render: ->
     return (
-      <div>
+      <div id="build-collection-repo-#{@props.repo_id}">
         {
           if @state.collection.length > 0
-            <BuildTable collection={@state.collection}/>
+            <BuildTable 
+              collection={@state.collection}
+              refresh={@fetchBuilds}
+            />
         }
       </div>
     )
@@ -46,11 +54,12 @@
 
           <tbody>
             {
-              @props.collection.map (resource)->
+              @props.collection.map (resource)=>
                 <BuildRow 
-                key={resource.build.id} 
-                repo={resource.repo} 
-                build={resource.build}
+                  key={resource.build.id} 
+                  repo={resource.repo} 
+                  build={resource.build}
+                  refresh={@props.refresh}
                 />
             }
           </tbody>
@@ -65,6 +74,11 @@
     $(ReactDOM.findDOMNode(this))
     .find("abbr.timeago").timeago();
 
+    $(ReactDOM.findDOMNode(this)).on "refresh", (ev, data)=>
+      if data.message && data.message.report 
+        console.log("alert on build row, it's alive!! #{data}")
+        @props.refresh()
+
   buildUrl: ->
     "/repos/#{@props.repo.name}/builds/#{@props.build.id}"
 
@@ -74,7 +88,7 @@
   render: ->
 
     return (
-      <tr>
+      <tr id="build-#{@props.build.id}">
         
         <td className="mdl-data-table__cell--non-numeric">
           <a href={@buildUrl()}>
